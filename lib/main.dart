@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_gap/screens/intrance/allow_access.dart';
 import 'package:flutter_app_gap/screens/intrance/first_onboard.dart';
 import 'package:flutter_app_gap/screens/intrance/splash.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const FirstOnBoardPage(),
+      home: const AllowAccessPage(),
     );
   }
 }
