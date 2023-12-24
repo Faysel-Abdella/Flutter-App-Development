@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 class CellCertifiedPage extends StatefulWidget {
   const CellCertifiedPage({Key? key}) : super(key: key);
