@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/button.dart';
+import 'package:flutter_app_gap/screens/login_process/login.dart';
 
 class AllowAccessPage extends StatefulWidget {
   const AllowAccessPage({Key? key}) : super(key: key);
@@ -11,20 +12,18 @@ class AllowAccessPage extends StatefulWidget {
 class _AllowAccessPageState extends State<AllowAccessPage> {
   @override
   Widget build(BuildContext context) {
+    onTabFun() {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LoginPage(),
+          ));
+    }
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 1, 7, 1),
       body: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0xFF242426),
-                Color(0xFF001F00),
-              ],
-            ),
-          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 36,
@@ -323,12 +322,13 @@ class _AllowAccessPageState extends State<AllowAccessPage> {
                   ),
                 ),
 
-                const CustomFreeButton(
+                CustomFreeButton(
+                    onTab: onTabFun,
                     margin: EdgeInsets.only(top: 32),
                     height: 36.0,
                     textColor: Colors.black,
                     color: Color(0xFFDBFF00),
-                    content: "다음")
+                    content: "다음"),
               ],
             ),
           ),

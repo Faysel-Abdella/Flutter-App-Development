@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/button.dart';
+import 'package:flutter_app_gap/screens/register_profile/name_register.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
 class OTPPage extends StatefulWidget {
@@ -143,6 +144,7 @@ class _OTPPageState extends State<OTPPage> {
                   borderColor: Color(0xFF7C7C80),
                   enabledBorderColor: Color(0xFF7C7C80),
                   focusedBorderColor: Colors.blueAccent,
+                  autoFocus: true,
 
                   borderRadius: BorderRadius.circular(12),
                   textStyle: const TextStyle(color: Colors.white, fontSize: 18),
@@ -267,9 +269,42 @@ class _OTPPageState extends State<OTPPage> {
                     } else {
                       // If the OTP code is correct go to the next screen
                       // OTP 코드가 맞다면 다음 화면으로 이동
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => NameRegisterPage(),
+                          ));
                     }
                   }, // end onSubmit
                 ),
+                Container(
+                  margin: const EdgeInsets.only(top: 16),
+                  height: 36,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Color(0xFF363638)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0),
+                          side: const BorderSide(color: Color(0xFF7C7C80)),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {
+                      // Handle button press
+                    },
+                    child: const Text(
+                      "다시 전송 02:59",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                )
               ],
             ),
           ),

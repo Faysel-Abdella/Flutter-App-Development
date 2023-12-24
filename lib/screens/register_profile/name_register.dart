@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_gap/components/button.dart';
+import 'package:flutter_app_gap/screens/register_profile/lounge_select.dart';
 import 'package:image_picker/image_picker.dart';
 
 class NameRegisterPage extends StatefulWidget {
@@ -350,6 +351,11 @@ class _NameRegisterPageState extends State<NameRegisterPage> {
                       ),
                     ),
                     onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BrandSelect(),
+                          ));
                       // Handle button press
                     },
                     child: const Text(

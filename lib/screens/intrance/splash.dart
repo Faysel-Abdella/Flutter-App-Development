@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_app_gap/screens/intrance/first_onboard.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -9,9 +12,21 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   @override
+  void initState() {
+    super.initState();
+    Timer(Duration(seconds: 2), () {
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) {
+          return FirstOnBoardPage();
+        },
+      ));
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF001F00),
+      backgroundColor: Color.fromARGB(255, 1, 7, 1),
       body: Stack(
         alignment: Alignment.center,
         children: [

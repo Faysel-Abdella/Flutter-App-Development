@@ -4,11 +4,13 @@ class CustomFreeButton extends StatefulWidget {
   final double height;
   final Color color;
   final Color textColor;
+  final onTab;
   final String content;
   final EdgeInsets margin;
 
   const CustomFreeButton({
     Key? key,
+    this.onTab,
     required this.height,
     required this.textColor,
     required this.color,
@@ -37,6 +39,7 @@ class _CustomFreeButtonState extends State<CustomFreeButton> {
           ),
         ),
         onPressed: () {
+          widget.onTab!();
           // Handle button press
         },
         child: Text(

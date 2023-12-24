@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/button.dart';
+import 'package:flutter_app_gap/screens/intrance/allow_access.dart';
 
 class FirstOnBoardPage extends StatelessWidget {
   const FirstOnBoardPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    onTabFun() {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => AllowAccessPage(),
+          ));
+    }
+
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromARGB(255, 1, 7, 1),
       body: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                const Color(0xFF242426),
-                const Color(0xFF001F00),
-              ],
-            ),
-          ),
           child: LayoutBuilder(
             builder: (context, constraints) {
               return Column(
@@ -59,7 +58,8 @@ class FirstOnBoardPage extends StatelessWidget {
                           Image.asset('images/icon_slide2.png'),
                           const Spacer(),
                           const SizedBox(height: 16),
-                          const CustomFreeButton(
+                          CustomFreeButton(
+                            onTab: onTabFun,
                             height: 36.0,
                             color: Color(0xFFDBFF00),
                             content: "다음",
