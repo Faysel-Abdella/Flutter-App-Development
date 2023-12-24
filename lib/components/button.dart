@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CustomFreeButton extends StatelessWidget {
+class CustomFreeButton extends StatefulWidget {
   final double height;
   final Color color;
   final Color textColor;
+
   final String content;
   final EdgeInsets margin;
 
@@ -17,14 +18,19 @@ class CustomFreeButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<CustomFreeButton> createState() => _CustomFreeButtonState();
+}
+
+class _CustomFreeButtonState extends State<CustomFreeButton> {
+  @override
   Widget build(BuildContext context) {
     return Container(
-      margin: margin,
-      height: height,
+      margin: widget.margin,
+      height: widget.height,
       width: double.infinity,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(color),
+          backgroundColor: MaterialStateProperty.all<Color>(),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
@@ -35,11 +41,11 @@ class CustomFreeButton extends StatelessWidget {
           // Handle button press
         },
         child: Text(
-          content,
+          widget.content,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w700,
-            color: textColor,
+            color: widget.textColor,
           ),
         ),
       ),
