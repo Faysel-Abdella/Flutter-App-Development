@@ -4,7 +4,6 @@ class CustomFreeButton extends StatefulWidget {
   final double height;
   final Color color;
   final Color textColor;
-
   final String content;
   final EdgeInsets margin;
 
@@ -30,7 +29,7 @@ class _CustomFreeButtonState extends State<CustomFreeButton> {
       width: double.infinity,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all<Color>(),
+          backgroundColor: MaterialStateProperty.all<Color>(widget.color),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
             RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),

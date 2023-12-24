@@ -34,22 +34,22 @@ class _CellCertifiedPageState extends State<CellCertifiedPage> {
   }
 
   void _checkPhoneNumber() {
-    String phoneNumber = _phoneController.text.obs;
+    String phoneNumber = _phoneController.text;
     // Hi Kim's developer for the below use the actual real data
     // 아래의 김안녕님 개발자는 실제 실제 데이터를 사용합니다.
     if (phoneNumber == "0911223344") {
       // It is the condition where the inserted phone number is not correct or already used
       // 입력한 전화번호가 정확하지 않거나 이미 사용된 전화번호인 경우입니다.
       setState(() {
-        _isNumberIncorrect = true;
+        _isNumberIncorrect.value = true;
       });
     } else {
       setState(() {
-        _isNumberIncorrect = false;
+        _isNumberIncorrect.value = false;
       });
       if (phoneNumber.length == 10) {
         setState(() {
-          _isNumberIncorrect = false;
+          _isNumberIncorrect.value = false;
         });
         // Perform actions for correct input
       }
@@ -132,7 +132,7 @@ class _CellCertifiedPageState extends State<CellCertifiedPage> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        focusedBorder: _isNumberIncorrect
+                        focusedBorder: _isNumberIncorrect.value
                             ? OutlineInputBorder(
                                 borderSide: const BorderSide(color: Colors.red),
                                 borderRadius: BorderRadius.circular(12),
@@ -148,7 +148,7 @@ class _CellCertifiedPageState extends State<CellCertifiedPage> {
                                     borderSide: const BorderSide(
                                         color: Colors.transparent),
                                   )),
-                        suffixIcon: _isNumberIncorrect
+                        suffixIcon: _isNumberIncorrect.value
                             ? const Icon(Icons.warning, color: Colors.red)
                             : (_phoneController.text.length == 10
                                 ? const Icon(Icons.check_circle,
@@ -166,26 +166,18 @@ class _CellCertifiedPageState extends State<CellCertifiedPage> {
                       _checkPhoneNumber();
                     },
                   ),
-                  if (_isNumberIncorrect)
+                  if (_isNumberIncorrect.value)
                     const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'Number is incorrect',
                         style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700),
+                          color: Colors.red,
+                          fontSize: 10,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
-                  CustomFreeButton(
-                    height: 36,
-                    textColor: Colors.black,
-                    color: !_isNumberIncorrect
-                        ? const Color(0xFFAEAEB2)
-                        : const Color(0xFFDBFF00),
-                    content: "인증요청",
-                    margin: const EdgeInsets.only(top: 118, bottom: 16),
-                  )
                 ],
               ),
             ],
