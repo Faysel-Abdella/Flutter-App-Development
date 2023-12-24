@@ -148,8 +148,8 @@ class _CellCertifiedPageState extends State<CellCertifiedPage> {
                             : (_phoneController.text.length == 10
                                 ? OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
-                                    borderSide:
-                                        const BorderSide(color: Colors.yellow),
+                                    borderSide: const BorderSide(
+                                        color: Color(0xFFDBFF00)),
                                   )
                                 : OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),

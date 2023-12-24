@@ -10,16 +10,6 @@ class OTPPage extends StatefulWidget {
 }
 
 class _OTPPageState extends State<OTPPage> {
-  late bool _optIsCorrect;
-  late bool _optIsExpired;
-
-  @override
-  void initState() {
-    super.initState();
-    _optIsCorrect = false;
-    _optIsExpired = true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
