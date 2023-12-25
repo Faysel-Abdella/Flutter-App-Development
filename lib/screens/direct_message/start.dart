@@ -2,13 +2,265 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/cetnered_button.dart';
 
 class MessagePageEntrance extends StatefulWidget {
-  const MessagePageEntrance({super.key});
+  const MessagePageEntrance({Key? key}) : super(key: key);
 
   @override
   State<MessagePageEntrance> createState() => _MessagePageEntranceState();
 }
 
 class _MessagePageEntranceState extends State<MessagePageEntrance> {
+  late TextEditingController _nameController;
+  late bool _isNameExist;
+  late bool _inputIsEmpty;
+  late bool _isButtonNotYellow;
+
+  late bool _isKeyboardOpen;
+
+  // final _focusNode = FocusNode();
+
+  FocusNode _textFieldFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+    _inputIsEmpty = true;
+    _isNameExist = false;
+    _isButtonNotYellow = true;
+
+    _isKeyboardOpen = true;
+
+    _textFieldFocusNode.addListener(_onTextFieldFocusChange);
+  }
+
+  void _onTextFieldFocusChange() {
+    if (_textFieldFocusNode.hasFocus) {
+      // TextField is in focus
+      _isKeyboardOpen = true;
+    } else {
+      // TextField lost focus
+      _isKeyboardOpen = false;
+    }
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    // _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _checkNameExist() {
+    String searchingName = _nameController.text;
+    if (searchingName == "faysel" || searchingName == "kim") {
+      // It is the condition where the inserted name is not exist
+      setState(() {
+        _isNameExist = true;
+        _isButtonNotYellow = true;
+        _inputIsEmpty = false;
+      });
+      print(searchingName);
+      print(_isNameExist);
+    } else {
+      // if (searchingName.length >= 1) {
+      setState(() {
+        _isNameExist = false;
+        _isButtonNotYellow = false;
+        _inputIsEmpty = false;
+      });
+      print(searchingName);
+      print(_isNameExist);
+      print(_inputIsEmpty);
+      // Perform actions for correct input
+      // }
+    }
+
+    if (searchingName == "") {
+      setState(() {
+        _inputIsEmpty = true;
+        _isButtonNotYellow = true;
+      });
+    }
+  }
+
+  void showBottomSheet2(
+    BuildContext context,
+    searchingName,
+    resultProfile,
+    notice,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      constraints:
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.95),
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.95,
+            padding: const EdgeInsets.all(20),
+            // height: MediaQuery.of(context).size.height,
+            decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(25),
+                    topLeft: Radius.circular(25)),
+                color: Color(0xFF545456)),
+            child: Container(
+              // padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: _isKeyboardOpen
+                    ? MainAxisAlignment.start
+                    : MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: const Row(
+                          children: [
+                            Text(
+                              "취소",
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(width: 36),
+                            Expanded(
+                              child: Text(
+                                "새로운 다이렉트 메시지",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      const Divider(
+                        color: Colors.white,
+                        thickness: 1,
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "To : ",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white),
+                            ),
+                            Expanded(
+                              child: SizedBox(
+                                height: 25,
+                                child: TextField(
+                                  controller: _nameController,
+                                  focusNode: _textFieldFocusNode,
+                                  autofocus: true,
+                                  cursorColor: Colors.white,
+                                  autocorrect: false,
+
+                                  decoration: InputDecoration(
+                                    isCollapsed: true,
+                                    border: InputBorder.none,
+                                    enabledBorder: InputBorder.none,
+                                    errorBorder: InputBorder.none,
+                                  ),
+                                  style: const TextStyle(
+                                      fontSize: 18, color: Colors.white),
+                                  // textAlign: TextAlign.center,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _checkNameExist();
+                                    });
+                                  },
+                                  onTap: () {},
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Builder(
+                        builder: (context) {
+                          return Text(
+                            !_inputIsEmpty && !_isNameExist
+                                ? "Name doesn't exist"
+                                : "Find name",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
+                          );
+                        },
+                      ),
+                      if (_inputIsEmpty) Text("input is empty"),
+                    ],
+                  ),
+
+                  if (_isKeyboardOpen) SizedBox(height: 250),
+                  // The button
+                  ElevatedButton(
+                      onPressed: () {},
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Color(0xFF7C7C80)),
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
+                      ),
+                      child: Container(
+                        // margin: margin,
+                        height: 36,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "images/send_message.png",
+                              width: 24,
+                              height: 24,
+                              color: Colors.white,
+                            ),
+                            const SizedBox(width: 8),
+                            Container(
+                              child: Text(
+                                "메시지 보내기",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ))
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +309,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   "대화 내역이 없습니다.\n각 라운지에서 활발히 활동하고 있는\n갭(회원)들과 임낵을 쌓아보세요.",
                   style: TextStyle(
                       color: Colors.white,
@@ -65,24 +317,26 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                       fontWeight: FontWeight.w700),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 16,
                 ),
-                Text(
+                const Text(
                   "🤩",
                   style: TextStyle(fontSize: 34),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 8,
                 ),
                 CustomCenteredButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showBottomSheet2(context, "hi", "hi", "search");
+                    },
                     color: Color(0xFFDBFF00),
                     imagePath: "images/send_message.png",
                     buttonText: "메시지 보내기",
                     textColor: Colors.black,
                     height: 36),
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 )
               ],
