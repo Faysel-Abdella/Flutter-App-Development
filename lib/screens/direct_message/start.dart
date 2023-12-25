@@ -59,20 +59,15 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
         _isButtonNotYellow = true;
         _inputIsEmpty = false;
       });
-      print(searchingName);
-      print(_isNameExist);
     } else {
-      // if (searchingName.length >= 1) {
-      setState(() {
-        _isNameExist = false;
-        _isButtonNotYellow = false;
-        _inputIsEmpty = false;
-      });
-      print(searchingName);
-      print(_isNameExist);
-      print(_inputIsEmpty);
-      // Perform actions for correct input
-      // }
+      if (searchingName != "") {
+        setState(() {
+          _isNameExist = false;
+          _isButtonNotYellow = false;
+          _inputIsEmpty = false;
+        });
+        // Perform actions for correct input
+      }
     }
 
     if (searchingName == "") {
@@ -95,167 +90,185 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
       constraints:
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.95),
       builder: (BuildContext context) {
-        return SingleChildScrollView(
-          child: Container(
-            height: MediaQuery.of(context).size.height * 0.95,
-            padding: const EdgeInsets.all(20),
-            // height: MediaQuery.of(context).size.height,
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(25),
-                    topLeft: Radius.circular(25)),
-                color: Color(0xFF545456)),
-            child: Container(
-              // padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisAlignment: _isKeyboardOpen
-                    ? MainAxisAlignment.start
-                    : MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return SingleChildScrollView(
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.95,
+                padding: const EdgeInsets.all(20),
+                // height: MediaQuery.of(context).size.height,
+                decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(25),
+                        topLeft: Radius.circular(25)),
+                    color: Color(0xFF545456)),
+                child: Container(
+                  // padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    mainAxisAlignment: _isKeyboardOpen
+                        ? MainAxisAlignment.start
+                        : MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: const Row(
-                          children: [
-                            Text(
-                              "취소",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white),
-                            ),
-                            SizedBox(width: 36),
-                            Expanded(
-                              child: Text(
-                                "새로운 다이렉트 메시지",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      const Divider(
-                        color: Colors.white,
-                        thickness: 1,
-                      ),
-                      SizedBox(
-                        height: 16,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "To : ",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white),
-                            ),
-                            Expanded(
-                              child: SizedBox(
-                                height: 25,
-                                child: TextField(
-                                  controller: _nameController,
-                                  focusNode: _textFieldFocusNode,
-                                  autofocus: true,
-                                  cursorColor: Colors.white,
-                                  autocorrect: false,
-
-                                  decoration: InputDecoration(
-                                    isCollapsed: true,
-                                    border: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                  ),
-                                  style: const TextStyle(
-                                      fontSize: 18, color: Colors.white),
-                                  // textAlign: TextAlign.center,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _checkNameExist();
-                                    });
-                                  },
-                                  onTap: () {},
+                      Column(
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "취소",
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
                                 ),
+                                SizedBox(width: 36),
+                                Expanded(
+                                  child: Text(
+                                    "새로운 다이렉트 메시지",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          const Divider(
+                            color: Colors.white,
+                            thickness: 1,
+                          ),
+                          const SizedBox(
+                            height: 16,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                right: 8, left: 8, bottom: 24),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "To : ",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white),
+                                ),
+                                Expanded(
+                                  child: SizedBox(
+                                    height: 25,
+                                    child: TextFormField(
+                                      controller: _nameController,
+                                      focusNode: _textFieldFocusNode,
+                                      autofocus: true,
+                                      cursorColor: Colors.white,
+                                      autocorrect: false,
+
+                                      decoration: const InputDecoration(
+                                        isCollapsed: true,
+                                        border: InputBorder.none,
+                                        enabledBorder: InputBorder.none,
+                                        errorBorder: InputBorder.none,
+                                      ),
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.white),
+                                      // textAlign: TextAlign.center,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          // set current index!
+                                          _checkNameExist();
+                                        });
+                                      },
+                                      onTap: () {},
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Builder(
+                            builder: (context) {
+                              if (!_inputIsEmpty && !_isNameExist) {
+                                return const Text(
+                                  // "No users found.",
+                                  "검색된 사용자가 없습니다.",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                );
+                              } else {
+                                // Here you return the user profile if the user is found
+                                // or return the "search by nickname"
+                                return const Text(
+                                  // "search by nickname",
+                                  "대화명으로 검색해 주세요",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                );
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+
+                      if (_isKeyboardOpen) const SizedBox(height: 200),
+                      // The button
+                      ElevatedButton(
+                          onPressed: () {},
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                                const Color(0xFF7C7C80)),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                      Builder(
-                        builder: (context) {
-                          return Text(
-                            !_inputIsEmpty && !_isNameExist
-                                ? "Name doesn't exist"
-                                : "Find name",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
+                          ),
+                          child: Container(
+                            // margin: margin,
+                            height: 36,
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  "images/send_message.png",
+                                  width: 24,
+                                  height: 24,
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(width: 8),
+                                Container(
+                                  child: const Text(
+                                    "메시지 보내기",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700),
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        },
-                      ),
-                      if (_inputIsEmpty) Text("input is empty"),
+                          ))
                     ],
                   ),
-
-                  if (_isKeyboardOpen) SizedBox(height: 250),
-                  // The button
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Color(0xFF7C7C80)),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                        ),
-                      ),
-                      child: Container(
-                        // margin: margin,
-                        height: 36,
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "images/send_message.png",
-                              width: 24,
-                              height: 24,
-                              color: Colors.white,
-                            ),
-                            const SizedBox(width: 8),
-                            Container(
-                              child: Text(
-                                "메시지 보내기",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w700),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ))
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         );
       },
     );
