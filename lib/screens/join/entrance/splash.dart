@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_app_gap/screens/intrance/first_onboard.dart';
+import 'package:flutter_app_gap/screens/join/entrance/first_onboard.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});

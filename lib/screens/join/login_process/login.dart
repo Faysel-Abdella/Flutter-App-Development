@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/iconed_button.dart';
-import 'package:flutter_app_gap/screens/login_process/cell_certified.dart';
+import 'package:flutter_app_gap/screens/join/login_process/cell_certified.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,19 +13,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color(0xFF363638),
       body: SafeArea(
           child: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color(0xFF242426),
-              Color(0xFF001F00),
-            ],
-          ),
-        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 20,

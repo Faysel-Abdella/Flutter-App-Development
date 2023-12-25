@@ -40,7 +40,6 @@ class CustomBottomSheet {
                 ],
               ),
               GestureDetector(
-                onTap: () async => await _pickImage(),
                 child: Row(
                   children: [
                     Image.asset(

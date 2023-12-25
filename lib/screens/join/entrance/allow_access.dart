@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/button.dart';
-import 'package:flutter_app_gap/screens/login_process/login.dart';
+import 'package:flutter_app_gap/screens/join/login_process/login.dart';
 
 class AllowAccessPage extends StatefulWidget {
   const AllowAccessPage({Key? key}) : super(key: key);

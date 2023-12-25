@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_gap/screens/login_process/otp_certified_page.dart';
+import 'package:flutter_app_gap/screens/join/login_process/otp_certified_page.dart';
 
 class CellCertifiedPage extends StatefulWidget {
   const CellCertifiedPage({Key? key}) : super(key: key);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/button.dart';
-import 'package:flutter_app_gap/screens/register_profile/name_register.dart';
+import 'package:flutter_app_gap/screens/join/register_profile/name_register.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 
 class OTPPage extends StatefulWidget {

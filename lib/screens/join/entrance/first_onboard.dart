@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/button.dart';
-import 'package:flutter_app_gap/screens/intrance/allow_access.dart';
+import 'package:flutter_app_gap/screens/join/entrance/allow_access.dart';
 
 class FirstOnBoardPage extends StatelessWidget {
   const FirstOnBoardPage({Key? key}) : super(key: key);
