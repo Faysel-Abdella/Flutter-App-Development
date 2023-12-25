@@ -8,15 +8,28 @@ class MessagePageEntrance extends StatefulWidget {
   State<MessagePageEntrance> createState() => _MessagePageEntranceState();
 }
 
+class UserData {
+  String name;
+  String imagePath;
+  List<String> brands;
+
+  UserData(this.name, this.imagePath, this.brands);
+}
+
 class _MessagePageEntranceState extends State<MessagePageEntrance> {
   late TextEditingController _nameController;
   late bool _isNameExist;
   late bool _inputIsEmpty;
+  late bool _showProfile;
+  late bool _isProfileSelected;
   late bool _isButtonNotYellow;
 
   late bool _isKeyboardOpen;
 
-  // final _focusNode = FocusNode();
+  List<UserData> users = [
+    UserData("대화명", "images/profile_image.jpg",
+        ["images/brand_1.png", "images/brand_09.png", "images/brand_10.png"])
+  ];
 
   FocusNode _textFieldFocusNode = FocusNode();
 
@@ -26,6 +39,8 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
     _nameController = TextEditingController();
     _inputIsEmpty = true;
     _isNameExist = false;
+    _showProfile = false;
+    _isProfileSelected = false;
     _isButtonNotYellow = true;
 
     _isKeyboardOpen = true;
@@ -52,17 +67,24 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
 
   void _checkNameExist() {
     String searchingName = _nameController.text;
-    if (searchingName == "faysel" || searchingName == "kim") {
-      // It is the condition where the inserted name is not exist
+    if (searchingName == "gap") {
+      // It is the condition where the inserted name is correct and there exist a user with this name
       setState(() {
         _isNameExist = true;
         _isButtonNotYellow = true;
         _inputIsEmpty = false;
       });
+
+      if (searchingName == "gap") {
+        setState(() {
+          _showProfile = true;
+        });
+      }
     } else {
       if (searchingName != "") {
         setState(() {
           _isNameExist = false;
+          _showProfile = false;
           _isButtonNotYellow = false;
           _inputIsEmpty = false;
         });
@@ -74,6 +96,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
       setState(() {
         _inputIsEmpty = true;
         _isButtonNotYellow = true;
+        _showProfile = false;
       });
     }
   }
@@ -160,35 +183,80 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                       fontWeight: FontWeight.w700,
                                       color: Colors.white),
                                 ),
-                                Expanded(
-                                  child: SizedBox(
-                                    height: 25,
-                                    child: TextFormField(
-                                      controller: _nameController,
-                                      focusNode: _textFieldFocusNode,
-                                      autofocus: true,
-                                      cursorColor: Colors.white,
-                                      autocorrect: false,
+                                _isProfileSelected
+                                    ? Container(
+                                        height: 32,
+                                        padding: EdgeInsets.all(8),
+                                        margin: EdgeInsets.only(left: 8),
+                                        decoration: BoxDecoration(
+                                          color: Color(0xFF0099FF),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: 16,
+                                              height: 16,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10.0),
+                                                child: Image.asset(
+                                                  users[0].imagePath,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 8,
+                                            ),
+                                            Text(
+                                              "말랑한 우동",
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Colors.white),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    : Expanded(
+                                        child: SizedBox(
+                                          height: 25,
+                                          child: TextFormField(
+                                            controller: _nameController,
+                                            focusNode: _textFieldFocusNode,
+                                            autofocus: true,
+                                            cursorColor: Colors.white,
+                                            autocorrect: false,
 
-                                      decoration: const InputDecoration(
-                                        isCollapsed: true,
-                                        border: InputBorder.none,
-                                        enabledBorder: InputBorder.none,
-                                        errorBorder: InputBorder.none,
+                                            decoration: InputDecoration(
+                                              isCollapsed: true,
+                                              border: InputBorder.none,
+                                              enabledBorder: InputBorder.none,
+                                              errorBorder: InputBorder.none,
+                                            ),
+
+                                            style: const TextStyle(
+                                                fontSize: 18,
+                                                color: Colors.white),
+                                            // textAlign: TextAlign.center,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                // set current index!
+                                                _checkNameExist();
+                                              });
+                                            },
+                                            onTap: () {},
+                                          ),
+                                        ),
                                       ),
-                                      style: const TextStyle(
-                                          fontSize: 18, color: Colors.white),
-                                      // textAlign: TextAlign.center,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          // set current index!
-                                          _checkNameExist();
-                                        });
-                                      },
-                                      onTap: () {},
-                                    ),
-                                  ),
-                                ),
                               ],
                             ),
                           ),
@@ -207,15 +275,129 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                               } else {
                                 // Here you return the user profile if the user is found
                                 // or return the "search by nickname"
-                                return const Text(
-                                  // "search by nickname",
-                                  "대화명으로 검색해 주세요",
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                    color: Colors.white,
-                                  ),
-                                );
+                                if (_showProfile && !_isProfileSelected) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _isProfileSelected = true;
+                                      });
+                                    },
+                                    child: Container(
+                                      height: 51,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Stack(children: [
+                                            Container(
+                                              width: 48,
+                                              height: 49,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(20.0),
+                                                border: Border.all(
+                                                  color: Color(0xFFDBFF00),
+                                                  width: 2.0,
+                                                ),
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(19.0),
+                                                child: Image.asset(
+                                                  users[0].imagePath,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                                right: 0,
+                                                bottom: 0,
+                                                child: Image.asset(
+                                                    "images/profile_emoji.png"))
+                                          ]),
+                                          const SizedBox(width: 8),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Align(
+                                                child: Text(
+                                                  users[0].name,
+                                                  style: TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                height: 4,
+                                              ),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6.0), //
+                                                    ),
+                                                    child: Image.asset(
+                                                      users[0].brands[0],
+                                                      width: 37.333,
+                                                      height: 16,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 4),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6.0), //
+                                                    ),
+                                                    child: Image.asset(
+                                                      users[0].brands[1],
+                                                      width: 37.333,
+                                                      height: 16,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(width: 4),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6.0), //
+                                                    ),
+                                                    child: Image.asset(
+                                                      users[0].brands[2],
+                                                      width: 37.333,
+                                                      height: 16,
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return _isProfileSelected
+                                      ? SizedBox(
+                                          height: 1,
+                                        )
+                                      : const Text(
+                                          // "search by nickname",
+                                          "대화명으로 검색해 주세요",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w700,
+                                            color: Colors.white,
+                                          ),
+                                        );
+                                }
                               }
                             },
                           ),
@@ -227,8 +409,11 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                       ElevatedButton(
                           onPressed: () {},
                           style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                                const Color(0xFF7C7C80)),
+                            backgroundColor: _isProfileSelected
+                                ? MaterialStateProperty.all<Color>(
+                                    const Color(0xFFDBFF00))
+                                : MaterialStateProperty.all<Color>(
+                                    const Color(0xFF7C7C80)),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
@@ -247,16 +432,20 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                   "images/send_message.png",
                                   width: 24,
                                   height: 24,
-                                  color: Colors.white,
+                                  color: _isProfileSelected
+                                      ? Colors.black
+                                      : Colors.white,
                                 ),
                                 const SizedBox(width: 8),
                                 Container(
-                                  child: const Text(
+                                  child: Text(
                                     "메시지 보내기",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 16,
-                                        color: Colors.white,
+                                        color: _isProfileSelected
+                                            ? Colors.black
+                                            : Colors.white,
                                         fontWeight: FontWeight.w700),
                                   ),
                                 ),
@@ -343,6 +532,9 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                 CustomCenteredButton(
                     onPressed: () {
                       showBottomSheet2(context, "hi", "hi", "search");
+                      setState(() {
+                        _isProfileSelected = false;
+                      });
                     },
                     color: Color(0xFFDBFF00),
                     imagePath: "images/send_message.png",
