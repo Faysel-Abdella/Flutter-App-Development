@@ -265,7 +265,7 @@ class _NameRegisterPageState extends State<NameRegisterPage> {
                       controller: _nameController,
                       focusNode: _focusNode,
                       autofocus: true,
-                      cursorColor: Colors.white,
+                      cursorColor: const Color.fromRGBO(255, 255, 255, 1),
 
                       // Hi kim, use the maximum length of the normal name
                       maxLength: 3,

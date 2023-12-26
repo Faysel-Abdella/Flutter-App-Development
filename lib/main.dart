@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_gap/screens/direct_message/chat_room.dart';
 import 'package:flutter_app_gap/screens/direct_message/start.dart';
 import 'package:flutter_app_gap/screens/join/entrance/allow_access.dart';
 import 'package:flutter_app_gap/screens/join/entrance/first_onboard.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MessagePageEntrance(),
+      home: const ChatRoom(),
     );
   }
 }

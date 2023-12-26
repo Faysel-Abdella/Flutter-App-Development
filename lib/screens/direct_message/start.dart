@@ -28,7 +28,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
 
   List<UserData> users = [
     UserData("대화명", "images/profile_image.jpg",
-        ["images/brand_1.png", "images/brand_09.png", "images/brand_10.png"])
+        ["images/brand_1.png", "images/supreme.jpg", "images/brand_09.jpg"])
   ];
 
   FocusNode _textFieldFocusNode = FocusNode();
@@ -186,8 +186,8 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                 _isProfileSelected
                                     ? Container(
                                         height: 32,
-                                        padding: EdgeInsets.all(8),
-                                        margin: EdgeInsets.only(left: 8),
+                                        padding: const EdgeInsets.all(8),
+                                        margin: const EdgeInsets.only(left: 8),
                                         decoration: BoxDecoration(
                                           color: Color(0xFF0099FF),
                                           borderRadius:
@@ -213,10 +213,10 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                                 ),
                                               ),
                                             ),
-                                            SizedBox(
+                                            const SizedBox(
                                               width: 8,
                                             ),
-                                            Text(
+                                            const Text(
                                               "말랑한 우동",
                                               style: TextStyle(
                                                   fontSize: 12,
@@ -236,7 +236,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                             cursorColor: Colors.white,
                                             autocorrect: false,
 
-                                            decoration: InputDecoration(
+                                            decoration: const InputDecoration(
                                               isCollapsed: true,
                                               border: InputBorder.none,
                                               enabledBorder: InputBorder.none,
@@ -302,7 +302,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                               ),
                                               child: ClipRRect(
                                                 borderRadius:
-                                                    BorderRadius.circular(19.0),
+                                                    BorderRadius.circular(18.0),
                                                 child: Image.asset(
                                                   users[0].imagePath,
                                                   fit: BoxFit.cover,
@@ -323,56 +323,53 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                               Align(
                                                 child: Text(
                                                   users[0].name,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w700,
                                                       color: Colors.white),
                                                 ),
                                               ),
-                                              SizedBox(
+                                              const SizedBox(
                                                 height: 4,
                                               ),
                                               Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              6.0), //
-                                                    ),
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6.0),
                                                     child: Image.asset(
                                                       users[0].brands[0],
                                                       width: 37.333,
                                                       height: 16,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                   const SizedBox(width: 4),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              6.0), //
-                                                    ),
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6.0),
                                                     child: Image.asset(
                                                       users[0].brands[1],
                                                       width: 37.333,
                                                       height: 16,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                   const SizedBox(width: 4),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              6.0), //
-                                                    ),
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6.0),
                                                     child: Image.asset(
                                                       users[0].brands[2],
                                                       width: 37.333,
                                                       height: 16,
+                                                      fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                 ],
@@ -385,7 +382,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                   );
                                 } else {
                                   return _isProfileSelected
-                                      ? SizedBox(
+                                      ? const SizedBox(
                                           height: 1,
                                         )
                                       : const Text(
