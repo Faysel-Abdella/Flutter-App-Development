@@ -352,52 +352,83 @@ class _ChatRoomState extends State<ChatRoom> {
                                     if (isNewDate)
                                       Text(conversation
                                           .date), // Show the date if it's a new date
-                                    IntrinsicWidth(
-                                      // width: 100,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        color: Colors.yellow,
-                                        margin: const EdgeInsets.all(8),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(8),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                conversation.role == "sender"
-                                                    ? CrossAxisAlignment.end
-                                                    : CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                conversation.message,
-                                                style: const TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        if (conversation.role == "sender")
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  conversation.role == "sender"
+                                                      ? MainAxisAlignment.end
+                                                      : MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  conversation.hour,
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey,
+                                                  ),
                                                 ),
-                                                textAlign: TextAlign.left,
-                                              ),
-                                              const SizedBox(height: 8),
-                                              Row(
-                                                mainAxisAlignment: conversation
+                                              ],
+                                            ),
+                                          ),
+                                        Expanded(
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            color: Colors.yellow,
+                                            margin: const EdgeInsets.all(8),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(8),
+                                              child: Column(
+                                                crossAxisAlignment: conversation
                                                             .role ==
                                                         "sender"
-                                                    ? MainAxisAlignment.end
-                                                    : MainAxisAlignment.start,
+                                                    ? CrossAxisAlignment.end
+                                                    : CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    conversation.hour,
+                                                    conversation.message,
                                                     style: const TextStyle(
-                                                      fontSize: 12,
-                                                      color: Colors.grey,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
                                                     ),
+                                                    textAlign: TextAlign.left,
                                                   ),
+                                                  // const SizedBox(height: 8),
                                                 ],
                                               ),
-                                            ],
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                        if (conversation.role == "receiver")
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 8),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  conversation.role == "sender"
+                                                      ? MainAxisAlignment.end
+                                                      : MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  conversation.hour,
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                      ],
                                     ),
                                   ],
                                 );
