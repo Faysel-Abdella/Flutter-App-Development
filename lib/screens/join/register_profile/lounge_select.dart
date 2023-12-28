@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class BrandSelect extends StatefulWidget {
   const BrandSelect({super.key});
@@ -109,7 +110,7 @@ class _BrandSelectState extends State<BrandSelect> {
                                                 });
                                               },
                                               child: Image.asset(
-                                                  "images/selected.png"))
+                                                  "images/radio_button_selected.svg"))
                                           : GestureDetector(
                                               onTap: () {
                                                 setState(() {
@@ -118,7 +119,7 @@ class _BrandSelectState extends State<BrandSelect> {
                                                 });
                                               },
                                               child: Image.asset(
-                                                  "images/un_selected.png")),
+                                                  "images/radio_button_unselected.svg")),
                                       const SizedBox(
                                         width: 16,
                                       ),
@@ -158,7 +159,7 @@ class _BrandSelectState extends State<BrandSelect> {
                                                       !_isSelected[i];
                                                 });
                                               },
-                                              child: Image.asset(
+                                              child: SvgPicture.asset(
                                                   "images/selected.png"))
                                           : GestureDetector(
                                               onTap: () {
@@ -167,7 +168,7 @@ class _BrandSelectState extends State<BrandSelect> {
                                                       !_isSelected[i];
                                                 });
                                               },
-                                              child: Image.asset(
+                                              child: SvgPicture.asset(
                                                   "images/un_selected.png")),
                                       const SizedBox(
                                         width: 16,

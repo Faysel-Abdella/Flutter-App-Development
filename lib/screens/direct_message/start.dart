@@ -103,9 +103,6 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
 
   void showBottomSheet2(
     BuildContext context,
-    searchingName,
-    resultProfile,
-    notice,
   ) {
     showModalBottomSheet(
       context: context,
@@ -403,6 +400,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
 
                       if (_isKeyboardOpen) const SizedBox(height: 200),
                       // The button
+
                       ElevatedButton(
                           onPressed: () {},
                           style: ButtonStyle(
@@ -528,7 +526,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                 ),
                 CustomCenteredButton(
                     onPressed: () {
-                      showBottomSheet2(context, "hi", "hi", "search");
+                      showBottomSheet2(context);
                       setState(() {
                         _isProfileSelected = false;
                       });
