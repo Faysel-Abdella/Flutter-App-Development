@@ -267,7 +267,7 @@ class _NameRegisterPageState extends State<NameRegisterPage> {
                       autofocus: true,
                       cursorColor: const Color.fromRGBO(255, 255, 255, 1),
 
-                      // Hi kim, use the maximum length of the normal name
+                      // Hi developer, use the maximum length of the normal name
                       maxLength: 3,
                       decoration: InputDecoration(
                           hintText: '대화명을 입력해주세요.',

@@ -1,6 +1,11 @@
+import 'dart:io';
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:radio_group_v2/radio_group_v2.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter_app_gap/components/button.dart';
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({Key? key}) : super(key: key);
@@ -41,21 +46,7 @@ class _ChatRoomState extends State<ChatRoom> {
         ["images/brand_1.png", "images/supreme.jpg", "images/brand_09.jpg"])
   ];
 
-  List<Conversation> conversations = [
-    Conversation(
-        "sender", "안녕하세요~", "2016-12-25", "오전 11:24", false, "success"),
-    Conversation("receiver", "안녕하세요*^^* 🤟🏻", "2016-12-25", "오전 11:50", false,
-        "success"),
-    Conversation("sender", "별다방님 다음달 고아웃 가실건가요?", "2016-12-25", "오전 11:55",
-        false, "success"),
-    Conversation(
-        "sender", "전 갈려구요 👩🏼‍🌾", "2016-12-25", "오전 12:00", false, "success"),
-    Conversation("receiver", "저도 갈건데 제가 내일 연락 드릴께요. 짐 머 좀 하고 있어서요 ^^",
-        "2016-12-25", "오전 12:06", false, "success"),
-    Conversation("receiver", "어제 죄송했어요. 고아웃 담달 가시게요?", "2016-12-26", "오전 12:10",
-        false, "success"),
-    Conversation("sender", "넵!!", "2016-12-26", "오전 04:15", false, "failed"),
-  ];
+  List<Conversation> conversations = [];
 
   String formatDate(String date) {
     String year = date.substring(0, 4);
@@ -92,6 +83,31 @@ class _ChatRoomState extends State<ChatRoom> {
 
   double commentsHeaderHeight = 0;
 
+  File? _image;
+
+  Future<void> pickImage() async {
+    final imagePicker = ImagePicker();
+    final pickedImage =
+        await imagePicker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    }
+  }
+
+  Future<void> pickImageFromCamera() async {
+    final imagePicker = ImagePicker();
+    final pickedImage = await imagePicker.pickImage(source: ImageSource.camera);
+
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -102,8 +118,26 @@ class _ChatRoomState extends State<ChatRoom> {
     if (selectedIndex == 5) {
       showForm = true;
     }
+
+    conversations = [
+      Conversation(
+          "sender", "안녕하세요~", "2016-12-25", "오전 11:24", false, "success"),
+      Conversation("receiver", "안녕하세요*^^* 🤟🏻", "2016-12-25", "오전 11:50",
+          false, "success"),
+      Conversation("sender", "별다방님 다음달 고아웃 가실건가요?", "2016-12-25", "오전 11:55",
+          false, "success"),
+      Conversation("sender", "전 갈려구요 👩🏼‍🌾", "2016-12-25", "오전 12:00", false,
+          "success"),
+      Conversation("receiver", "저도 갈건데 제가 내일 연락 드릴께요. 짐 머 좀 하고 있어서요 ^^",
+          "2016-12-25", "오전 12:06", false, "success"),
+      Conversation("receiver", "어제 죄송했어요. 고아웃 담달 가시게요?", "2016-12-26",
+          "오전 12:10", false, "success"),
+      Conversation("sender", "넵!!", "2016-12-26", "오전 04:15", false, "failed"),
+      Conversation("sender", "images/image_message.jpeg", "2016-12-26",
+          "오전 06:36", true, "success"),
+    ];
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Sets initial size of comments bottom sheet. Thanks to it users always see just a header of the bottom sheet at the beginning.
       final double currentCommentsHeaderHeight =
           commentsHeaderKey.currentContext?.size?.height ?? 0;
       if (currentCommentsHeaderHeight != commentsHeaderHeight) {
@@ -134,12 +168,84 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
-  // final MediaQueryData mediaQueryData = MediaQuery.of(context);
-  // final double heightOfDevice = mediaQueryData.size.height;
-  // final double initialChildSize = (commentsHeaderHeight +
-  //         mediaQueryData.viewPadding.bottom +
-  //         mediaQueryData.viewPadding.top) /
-  //     heightOfDevice;
+  void showBottomSheet(
+    BuildContext context,
+    text1,
+    icon1,
+    icon2,
+    text2,
+    btnTxt,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(20),
+          height: 170,
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(25), topLeft: Radius.circular(25)),
+              color: Color(0xFF545456)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () async => await pickImageFromCamera(),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      icon1,
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      text1,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () async => await pickImage(),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      icon2,
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      text2,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox.shrink(),
+              CustomFreeButton(
+                  height: 36,
+                  textColor: Color(0xFF242426),
+                  color: Color(0xFFDBFF00),
+                  content: btnTxt)
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   void showBottomSheet2(
     BuildContext context,
@@ -165,14 +271,12 @@ class _ChatRoomState extends State<ChatRoom> {
                         ? MediaQuery.of(context).size.height * 0.95
                         : MediaQuery.of(context).size.height * 0.65,
                     padding: const EdgeInsets.all(20),
-                    // height: MediaQuery.of(context).size.height,
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(25),
                             topLeft: Radius.circular(25)),
                         color: Color(0xFF545456)),
                     child: Container(
-                      // padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
                           Row(
@@ -246,7 +350,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                       isSelected
                                           ? 'images/radio_button_selected.svg'
                                           : 'images/radio_button_unselected.svg',
-                                      // Optional: Set a color for the SVG image
                                     ),
                                   ),
                                   title: Text(
@@ -384,7 +487,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                 ),
                               ),
                               child: Container(
-                                // margin: margin,
                                 height: 36,
                                 width: double.infinity,
                                 child: Row(
@@ -572,8 +674,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                 bottom: 0,
                                 child: Image.asset(
                                   "images/profile_emoji_large.png",
-                                  // width: 40,
-                                  // height: 40,
                                 ))
                           ]),
                           const SizedBox(
@@ -652,8 +752,6 @@ class _ChatRoomState extends State<ChatRoom> {
 
                           // ######## The actual chat section  #########
                           SingleChildScrollView(
-                            // height: 900,
-
                             child: ListView.builder(
                               padding: EdgeInsets.symmetric(horizontal: 16),
                               shrinkWrap: true,
@@ -719,19 +817,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                         alignment: FractionalOffset.centerRight,
                                         child: LayoutBuilder(
                                           builder: (context, constraints) {
-                                            final textPainter = TextPainter(
-                                              text: TextSpan(
-                                                  text: conversation.message),
-                                              textDirection: TextDirection.ltr,
-                                              maxLines:
-                                                  1, // Ensure single-line measurement
-                                            )..layout(
-                                                maxWidth: constraints.maxWidth);
-
-                                            final messageWidth =
-                                                textPainter.width +
-                                                    40; // Adjust for padding
-
                                             return Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -795,31 +880,49 @@ class _ChatRoomState extends State<ChatRoom> {
                                                 ),
                                                 ConstrainedBox(
                                                     constraints: BoxConstraints(
-                                                        // minWidth:  messageWidth ,
                                                         maxWidth: MediaQuery.of(
                                                                     context)
                                                                 .size
                                                                 .width /
                                                             1.5),
-                                                    // width: messageWidth,
                                                     child: Container(
-                                                      padding:
-                                                          EdgeInsets.symmetric(
-                                                              horizontal: 12,
-                                                              vertical: 6),
+                                                      padding: conversation
+                                                              .isImage
+                                                          ? EdgeInsets.all(0)
+                                                          : EdgeInsets
+                                                              .symmetric(
+                                                                  horizontal:
+                                                                      12,
+                                                                  vertical: 6),
                                                       decoration: BoxDecoration(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(12),
                                                           color: Colors.yellow),
-                                                      child: Text(
-                                                        conversation.message,
-                                                        style: TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                      ),
+                                                      child: conversation
+                                                              .isImage
+                                                          ? ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12.0),
+                                                              child:
+                                                                  Image.asset(
+                                                                conversation
+                                                                    .message,
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            )
+                                                          : Text(
+                                                              conversation
+                                                                  .message,
+                                                              style: TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500),
+                                                            ),
                                                     )),
                                               ],
                                             );
@@ -830,8 +933,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                       height: 10,
                                     ),
                                     if (conversation.role == "receiver")
-
-                                      //if (conversation.role == "sender")
                                       Align(
                                         alignment: FractionalOffset.centerLeft,
                                         child: LayoutBuilder(
@@ -844,10 +945,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                                   1, // Ensure single-line measurement
                                             )..layout(
                                                 maxWidth: constraints.maxWidth);
-
-                                            final messageWidth =
-                                                textPainter.width +
-                                                    40; // Adjust for padding
 
                                             return Row(
                                               mainAxisAlignment:
@@ -894,8 +991,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                                             child: SvgPicture
                                                                 .asset(
                                                               "images/profile_emoji_small.svg",
-                                                              // width: 40,
-                                                              // height: 40,
                                                             ))
                                                       ]),
                                                     ),
@@ -921,16 +1016,12 @@ class _ChatRoomState extends State<ChatRoom> {
                                                           height: 6,
                                                         ),
                                                         ConstrainedBox(
-                                                            constraints:
-                                                                BoxConstraints(
-                                                                    //     minWidth: messageWidth,
-
-                                                                    //
-                                                                    maxWidth: MediaQuery.of(context)
-                                                                            .size
-                                                                            .width /
-                                                                        1.5),
-                                                            // width: messageWidth,
+                                                            constraints: BoxConstraints(
+                                                                maxWidth: MediaQuery.of(
+                                                                            context)
+                                                                        .size
+                                                                        .width /
+                                                                    1.5),
                                                             child: Container(
                                                               padding: EdgeInsets
                                                                   .symmetric(
@@ -988,8 +1079,6 @@ class _ChatRoomState extends State<ChatRoom> {
                           )
                         ],
                       )),
-
-                  //  Input box
                 ],
               ),
             ),
@@ -998,11 +1087,17 @@ class _ChatRoomState extends State<ChatRoom> {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                Image.asset(
-                  "images/from_camera.png",
-                  width: 32,
-                  height: 32,
-                  color: Color(0xFFAEAEB2),
+                GestureDetector(
+                  onTap: () {
+                    showBottomSheet(context, "카메라", "images/from_camera.png",
+                        "images/from_gallary.png", "사진 앨범", "닫기");
+                  },
+                  child: Image.asset(
+                    "images/from_camera.png",
+                    width: 32,
+                    height: 32,
+                    color: Color(0xFFAEAEB2),
+                  ),
                 ),
                 const SizedBox(
                   width: 10,
