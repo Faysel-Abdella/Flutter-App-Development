@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:radio_group_v2/radio_group_v2.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:flutter_link_previewer/flutter_link_previewer.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' show PreviewData;
 import 'package:flutter_app_gap/components/button.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -23,21 +25,79 @@ class UserData {
 }
 
 class Conversation {
+  int id;
   String role;
   String date;
   String hour;
   String status;
   bool isImage;
+  bool isLink;
   String message;
 
   Conversation(
+    this.id,
     this.role,
     this.message,
     this.date,
     this.hour,
     this.isImage,
+    this.isLink,
     this.status,
   );
+}
+
+class _MyHomePageState extends State<ChatRoom> {
+  Map<String, PreviewData> datas = {};
+
+  List<String> get urls => const [
+        'github.com/flyerhq',
+        'https://u24.gov.ua',
+        'https://twitter.com/SpaceX/status/1564975288655630338',
+      ];
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: ListView.builder(
+        itemCount: urls.length,
+        itemBuilder: (context, index) => Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            key: ValueKey(urls[index]),
+            margin: const EdgeInsets.all(16),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+              color: Color(0xfff7f7f8),
+            ),
+            child: ClipRRect(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+              child: LinkPreview(
+                enableAnimation: true,
+                onPreviewDataFetched: (data) {
+                  setState(() {
+                    datas = {
+                      ...datas,
+                      urls[index]: data,
+                    };
+                  });
+                },
+                previewData: datas[urls[index]],
+                text: urls[index],
+                width: MediaQuery.of(context).size.width,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _ChatRoomState extends State<ChatRoom> {
@@ -120,21 +180,31 @@ class _ChatRoomState extends State<ChatRoom> {
     }
 
     conversations = [
+      Conversation(1, "sender", "안녕하세요~", "2016-12-25", "오전 11:24", false,
+          false, "success"),
+      Conversation(2, "receiver", "안녕하세요*^^* 🤟🏻", "2016-12-25", "오전 11:50",
+          false, false, "success"),
+      Conversation(3, "sender", "별다방님 다음달 고아웃 가실건가요?", "2016-12-25", "오전 11:55",
+          false, false, "success"),
+      Conversation(4, "sender", "전 갈려구요 👩🏼‍🌾", "2016-12-25", "오전 12:00",
+          false, false, "success"),
+      Conversation(5, "receiver", "저도 갈건데 제가 내일 연락 드릴께요. 짐 머 좀 하고 있어서요 ^^",
+          "2016-12-25", "오전 12:06", false, false, "success"),
+      Conversation(6, "receiver", "어제 죄송했어요. 고아웃 담달 가시게요?", "2016-12-26",
+          "오전 12:10", false, false, "success"),
       Conversation(
-          "sender", "안녕하세요~", "2016-12-25", "오전 11:24", false, "success"),
-      Conversation("receiver", "안녕하세요*^^* 🤟🏻", "2016-12-25", "오전 11:50",
-          false, "success"),
-      Conversation("sender", "별다방님 다음달 고아웃 가실건가요?", "2016-12-25", "오전 11:55",
-          false, "success"),
-      Conversation("sender", "전 갈려구요 👩🏼‍🌾", "2016-12-25", "오전 12:00", false,
+          7, "sender", "넵!!", "2016-12-26", "오전 04:15", false, false, "failed"),
+      Conversation(8, "sender", "images/image_message.jpeg", "2016-12-26",
+          "오전 06:36", true, false, "success"),
+      Conversation(
+          9,
+          "sender",
+          "https://github.com/Faysel-Abdella/Codeforces-Solutions",
+          "2016-12-26",
+          "오전 06:50",
+          false,
+          true,
           "success"),
-      Conversation("receiver", "저도 갈건데 제가 내일 연락 드릴께요. 짐 머 좀 하고 있어서요 ^^",
-          "2016-12-25", "오전 12:06", false, "success"),
-      Conversation("receiver", "어제 죄송했어요. 고아웃 담달 가시게요?", "2016-12-26",
-          "오전 12:10", false, "success"),
-      Conversation("sender", "넵!!", "2016-12-26", "오전 04:15", false, "failed"),
-      Conversation("sender", "images/image_message.jpeg", "2016-12-26",
-          "오전 06:36", true, "success"),
     ];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -899,30 +969,32 @@ class _ChatRoomState extends State<ChatRoom> {
                                                               BorderRadius
                                                                   .circular(12),
                                                           color: Colors.yellow),
-                                                      child: conversation
-                                                              .isImage
-                                                          ? ClipRRect(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          12.0),
-                                                              child:
-                                                                  Image.asset(
-                                                                conversation
-                                                                    .message,
-                                                                fit: BoxFit
-                                                                    .cover,
-                                                              ),
-                                                            )
-                                                          : Text(
-                                                              conversation
-                                                                  .message,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500),
-                                                            ),
+                                                      child: conversation.isLink
+                                                          ? null // Here preview the link
+                                                          : conversation.isImage
+                                                              ? ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12.0),
+                                                                  child: Image
+                                                                      .asset(
+                                                                    conversation
+                                                                        .message,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                )
+                                                              : Text(
+                                                                  conversation
+                                                                      .message,
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500),
+                                                                ),
                                                     )),
                                               ],
                                             );
@@ -937,15 +1009,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                         alignment: FractionalOffset.centerLeft,
                                         child: LayoutBuilder(
                                           builder: (context, constraints) {
-                                            final textPainter = TextPainter(
-                                              text: TextSpan(
-                                                  text: conversation.message),
-                                              textDirection: TextDirection.ltr,
-                                              maxLines:
-                                                  1, // Ensure single-line measurement
-                                            )..layout(
-                                                maxWidth: constraints.maxWidth);
-
                                             return Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
@@ -1023,8 +1086,11 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                         .width /
                                                                     1.5),
                                                             child: Container(
-                                                              padding: EdgeInsets
-                                                                  .symmetric(
+                                                              padding: conversation
+                                                                      .isImage
+                                                                  ? EdgeInsets
+                                                                      .all(0)
+                                                                  : EdgeInsets.symmetric(
                                                                       horizontal:
                                                                           12,
                                                                       vertical:
@@ -1036,18 +1102,149 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                               12),
                                                                   color: Color(
                                                                       0xFF545456)),
-                                                              child: Text(
-                                                                conversation
-                                                                    .message,
-                                                                style: TextStyle(
-                                                                    fontSize:
-                                                                        14,
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .w500,
-                                                                    color: Colors
-                                                                        .white),
-                                                              ),
+                                                              child: conversation
+                                                                      .isImage
+                                                                  ? ClipRRect(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              12.0),
+                                                                      child: Image
+                                                                          .asset(
+                                                                        conversation
+                                                                            .message,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      ),
+                                                                    )
+                                                                  : ListTile(
+                                                                      contentPadding:
+                                                                          EdgeInsets.all(
+                                                                              0),
+                                                                      title:
+                                                                          Text(
+                                                                        conversation
+                                                                            .message,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          color:
+                                                                              Colors.white,
+                                                                        ),
+                                                                      ),
+                                                                      onTap:
+                                                                          () {
+                                                                        final RenderBox
+                                                                            box =
+                                                                            context.findRenderObject()
+                                                                                as RenderBox;
+                                                                        final Offset
+                                                                            position =
+                                                                            box.localToGlobal(Offset.zero);
+                                                                        showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          barrierColor:
+                                                                              Colors.transparent,
+                                                                          builder:
+                                                                              (BuildContext context) {
+                                                                            return Container(
+                                                                              padding: EdgeInsets.zero,
+                                                                              // width: 200,
+                                                                              // height: 200,
+                                                                              child: Stack(
+                                                                                children: [
+                                                                                  Positioned(
+                                                                                    top: position.dy, // Set the top position based on the tapped widget's position
+                                                                                    left: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        borderRadius: BorderRadius.circular(12),
+                                                                                        color: Colors.black,
+                                                                                      ),
+                                                                                      child: Column(
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        children: [
+                                                                                          TextButton(
+                                                                                            onPressed: () {
+                                                                                              // Store the message in a temporary variable and open the user's keyboard
+                                                                                              Navigator.pop(context); // Close the dialog
+                                                                                            },
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                SvgPicture.asset("images/reply.svg"),
+                                                                                                SizedBox(
+                                                                                                  width: 8,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  "답글달기",
+                                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                                                                                                ),
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                          SvgPicture.asset("images/pop_up_divider.svg"),
+                                                                                          TextButton(
+                                                                                            onPressed: () {
+                                                                                              // perform copy operation
+                                                                                              Navigator.pop(context); // Close the dialog
+                                                                                            },
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                SvgPicture.asset("images/copy.svg"),
+                                                                                                SizedBox(
+                                                                                                  width: 8,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  "복사",
+                                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                          SvgPicture.asset("images/pop_up_divider.svg"),
+                                                                                          TextButton(
+                                                                                            onPressed: () {
+                                                                                              // Perform delete operation
+                                                                                              Navigator.pop(context); // Close the dialog
+                                                                                            },
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                SvgPicture.asset("images/delete.svg"),
+                                                                                                SizedBox(
+                                                                                                  width: 8,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  "삭제",
+                                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                              // Text(
+                                                              //     conversation
+                                                              //         .message,
+                                                              //     style: TextStyle(
+                                                              //         fontSize:
+                                                              //             14,
+                                                              //         fontWeight: FontWeight
+                                                              //             .w500,
+                                                              //         color:
+                                                              //             Colors.white),
+                                                              //   ),
                                                             )),
                                                       ],
                                                     ),
