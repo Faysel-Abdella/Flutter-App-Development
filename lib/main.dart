@@ -9,6 +9,7 @@ import 'package:flutter_app_gap/screens/join/login_process/login.dart';
 import 'package:flutter_app_gap/screens/join/login_process/otp_certified_page.dart';
 import 'package:flutter_app_gap/screens/join/register_profile/lounge_select.dart';
 import 'package:flutter_app_gap/screens/join/register_profile/name_register.dart';
+import 'package:flutter_app_gap/screens/profile_setting/profile_notice.dart';
 import 'package:flutter_app_gap/screens/profile_setting/setting_home.dart';
 
 void main() {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SettingHome(),
+      home: const ProfileNotice(),
     );
   }
 }

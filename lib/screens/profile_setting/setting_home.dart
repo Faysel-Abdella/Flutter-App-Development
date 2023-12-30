@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_gap/components/app_bar.dart';
 import 'package:flutter_app_gap/components/setting_item.dart';
 import 'package:flutter_app_gap/components/setting_item_header.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,31 +17,7 @@ class _SettingHomeState extends State<SettingHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFF363638),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF242426),
-        automaticallyImplyLeading: false,
-        elevation: 0,
-        toolbarHeight: 64,
-        centerTitle: true,
-        title: const Text(
-          "설 정",
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
-            height: 20.5,
-          ),
-        ),
-        leading: Container(
-          margin: const EdgeInsets.only(left: 8),
-          padding: EdgeInsets.only(left: 18),
-          child: GestureDetector(
-              onTap: () {
-                Navigator.of(context).pop();
-              },
-              child: Image.asset("images/back_arrow.png")),
-        ),
-      ),
+      appBar: CustomAppBar(text: "설 정"),
       body: Column(
         children: [
           Expanded(
