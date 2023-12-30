@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' show PreviewData;
 import 'package:flutter_app_gap/components/button.dart';
+import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({Key? key}) : super(key: key);
@@ -34,16 +35,22 @@ class Conversation {
   bool isLink;
   String message;
 
+  bool? isReply;
+  String? replyTo;
+  String? replyText;
+
   Conversation(
-    this.id,
-    this.role,
-    this.message,
-    this.date,
-    this.hour,
-    this.isImage,
-    this.isLink,
-    this.status,
-  );
+      this.id,
+      this.role,
+      this.message,
+      this.date,
+      this.hour,
+      this.isImage,
+      this.isLink,
+      this.status,
+      this.isReply,
+      this.replyTo,
+      this.replyText);
 }
 
 class _MyHomePageState extends State<ChatRoom> {
@@ -101,6 +108,7 @@ class _MyHomePageState extends State<ChatRoom> {
 }
 
 class _ChatRoomState extends State<ChatRoom> {
+  final FocusNode _focusNode = FocusNode();
   List<UserData> users = [
     UserData("대화명", "images/profile_image.jpg",
         ["images/brand_1.png", "images/supreme.jpg", "images/brand_09.jpg"])
@@ -130,9 +138,11 @@ class _ChatRoomState extends State<ChatRoom> {
 
   late TextEditingController _chatController;
   late TextEditingController _reportController;
+  late String replyToText;
+  late String latestReplyToText;
+  ScrollController _scrollController = ScrollController();
   late bool _isInputEmpty;
-
-  final _focusNode = FocusNode();
+  String copiedText = '';
 
   RadioGroupController optionController = RadioGroupController();
   final GlobalKey<RadioGroupState> radioGroupKey1 =
@@ -174,6 +184,8 @@ class _ChatRoomState extends State<ChatRoom> {
     _chatController = TextEditingController();
     _reportController = TextEditingController();
     _isInputEmpty = true;
+    replyToText = "";
+    latestReplyToText = "";
     showForm = false;
     if (selectedIndex == 5) {
       showForm = true;
@@ -181,21 +193,21 @@ class _ChatRoomState extends State<ChatRoom> {
 
     conversations = [
       Conversation(1, "sender", "안녕하세요~", "2016-12-25", "오전 11:24", false,
-          false, "success"),
+          false, "success", false, "", ""),
       Conversation(2, "receiver", "안녕하세요*^^* 🤟🏻", "2016-12-25", "오전 11:50",
-          false, false, "success"),
+          false, false, "success", false, "", ""),
       Conversation(3, "sender", "별다방님 다음달 고아웃 가실건가요?", "2016-12-25", "오전 11:55",
-          false, false, "success"),
+          false, false, "success", false, "", ""),
       Conversation(4, "sender", "전 갈려구요 👩🏼‍🌾", "2016-12-25", "오전 12:00",
-          false, false, "success"),
+          false, false, "success", false, "", ""),
       Conversation(5, "receiver", "저도 갈건데 제가 내일 연락 드릴께요. 짐 머 좀 하고 있어서요 ^^",
-          "2016-12-25", "오전 12:06", false, false, "success"),
+          "2016-12-25", "오전 12:06", false, false, "success", false, "", ""),
       Conversation(6, "receiver", "어제 죄송했어요. 고아웃 담달 가시게요?", "2016-12-26",
-          "오전 12:10", false, false, "success"),
-      Conversation(
-          7, "sender", "넵!!", "2016-12-26", "오전 04:15", false, false, "failed"),
+          "오전 12:10", false, false, "success", false, "", ""),
+      Conversation(7, "sender", "넵!!", "2016-12-26", "오전 04:15", false, false,
+          "failed", false, "", ""),
       Conversation(8, "sender", "images/image_message.jpeg", "2016-12-26",
-          "오전 06:36", true, false, "success"),
+          "오전 06:36", true, false, "success", false, "", ""),
       Conversation(
           9,
           "sender",
@@ -204,7 +216,10 @@ class _ChatRoomState extends State<ChatRoom> {
           "오전 06:50",
           false,
           true,
-          "success"),
+          "success",
+          false,
+          "",
+          ""),
     ];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -222,6 +237,7 @@ class _ChatRoomState extends State<ChatRoom> {
   void dispose() {
     _reportController.dispose();
     _reportController.dispose();
+    _scrollController.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -236,6 +252,61 @@ class _ChatRoomState extends State<ChatRoom> {
         _isInputEmpty = false;
       });
     }
+  }
+
+  void showPopupText(BuildContext context, String text, double marginBottom) {
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (BuildContext context) {
+        Timer(Duration(seconds: 2), () {
+          Navigator.of(context).pop(); // Close the dialog after 2 seconds
+        });
+
+        return Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
+          child: Container(
+            height: 72,
+            color: Colors.transparent,
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            margin: EdgeInsets.only(bottom: marginBottom),
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        Image.asset(
+                          "images/popup_emoji.png",
+                          height: 40,
+                          width: 40,
+                        ),
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          text,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black),
+                        )
+                      ],
+                    ),
+                  )),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void showBottomSheet(
@@ -887,6 +958,18 @@ class _ChatRoomState extends State<ChatRoom> {
                                         alignment: FractionalOffset.centerRight,
                                         child: LayoutBuilder(
                                           builder: (context, constraints) {
+                                            final textPainter = TextPainter(
+                                              text: TextSpan(
+                                                  text: latestReplyToText),
+                                              textDirection: TextDirection.ltr,
+                                              maxLines:
+                                                  1, // Ensure single-line measurement
+                                            )..layout(
+                                                maxWidth: constraints.maxWidth);
+
+                                            final messageWidth =
+                                                textPainter.width + 40;
+
                                             return Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.end,
@@ -949,13 +1032,13 @@ class _ChatRoomState extends State<ChatRoom> {
                                                   width: 8,
                                                 ),
                                                 ConstrainedBox(
-                                                    constraints: BoxConstraints(
-                                                        maxWidth: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.5),
-                                                    child: Container(
+                                                  constraints: BoxConstraints(
+                                                      maxWidth:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width /
+                                                              1.6),
+                                                  child: Container(
                                                       padding: conversation
                                                               .isImage
                                                           ? EdgeInsets.all(0)
@@ -972,30 +1055,319 @@ class _ChatRoomState extends State<ChatRoom> {
                                                       child: conversation.isLink
                                                           ? null // Here preview the link
                                                           : conversation.isImage
-                                                              ? ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12.0),
-                                                                  child: Image
-                                                                      .asset(
-                                                                    conversation
-                                                                        .message,
-                                                                    fit: BoxFit
-                                                                        .cover,
+                                                              ? InkWell(
+                                                                  overlayColor:
+                                                                      MaterialStatePropertyAll(
+                                                                          Colors
+                                                                              .transparent),
+                                                                  child:
+                                                                      ClipRRect(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            12.0),
+                                                                    child: Image
+                                                                        .asset(
+                                                                      conversation
+                                                                          .message,
+                                                                      fit: BoxFit
+                                                                          .cover,
+                                                                    ),
                                                                   ),
+                                                                  onTap: () {
+                                                                    final RenderBox
+                                                                        box =
+                                                                        context.findRenderObject()
+                                                                            as RenderBox;
+                                                                    final Offset
+                                                                        position =
+                                                                        box.localToGlobal(
+                                                                            Offset.zero);
+                                                                    showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      barrierColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      builder:
+                                                                          (BuildContext
+                                                                              context) {
+                                                                        return Container(
+                                                                          padding:
+                                                                              EdgeInsets.zero,
+                                                                          // width: 200,
+                                                                          // height: 200,
+                                                                          child:
+                                                                              Stack(
+                                                                            children: [
+                                                                              Positioned(
+                                                                                top: position.dy, // Set the top position based on the tapped widget's position
+                                                                                left: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
+                                                                                child: Container(
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius: BorderRadius.circular(12),
+                                                                                    color: Colors.black,
+                                                                                  ),
+                                                                                  child: Column(
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    children: [
+                                                                                      TextButton(
+                                                                                        onPressed: () {
+                                                                                          // perform copy operation
+                                                                                          Navigator.pop(context); // Close the dialog
+                                                                                        },
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            SvgPicture.asset("images/copy.svg"),
+                                                                                            SizedBox(
+                                                                                              width: 8,
+                                                                                            ),
+                                                                                            Text(
+                                                                                              "복사",
+                                                                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      SvgPicture.asset("images/pop_up_divider.svg"),
+                                                                                      TextButton(
+                                                                                        onPressed: () {
+                                                                                          // Perform delete operation
+                                                                                          Navigator.pop(context); // Close the dialog
+                                                                                        },
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            SvgPicture.asset("images/delete.svg"),
+                                                                                            SizedBox(
+                                                                                              width: 8,
+                                                                                            ),
+                                                                                            Text(
+                                                                                              "삭제",
+                                                                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        );
+                                                                      },
+                                                                    );
+                                                                  },
                                                                 )
-                                                              : Text(
-                                                                  conversation
-                                                                      .message,
-                                                                  style: TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500),
-                                                                ),
-                                                    )),
+                                                              : conversation
+                                                                      .isReply!
+                                                                  ? InkWell(
+                                                                      child:
+                                                                          Column(
+                                                                        children: [
+                                                                          Text(
+                                                                            latestReplyToText,
+                                                                            style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Color(0xFFA2BC02)),
+                                                                          ),
+                                                                          Container(
+                                                                            width:
+                                                                                messageWidth - 40,
+                                                                            child:
+                                                                                Divider(
+                                                                              height: 2,
+                                                                              thickness: 1,
+                                                                              color: Color(0xFFA2BC02),
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            conversation.message,
+                                                                            style: TextStyle(
+                                                                                fontSize: 14,
+                                                                                fontWeight: FontWeight.w500,
+                                                                                color: Colors.black),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      onTap:
+                                                                          () {
+                                                                        final RenderBox
+                                                                            box =
+                                                                            context.findRenderObject()
+                                                                                as RenderBox;
+                                                                        final Offset
+                                                                            position =
+                                                                            box.localToGlobal(Offset.zero);
+                                                                        showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          barrierColor:
+                                                                              Colors.transparent,
+                                                                          builder:
+                                                                              (BuildContext context) {
+                                                                            return Container(
+                                                                              padding: EdgeInsets.zero,
+                                                                              // width: 200,
+                                                                              // height: 200,
+                                                                              child: Stack(
+                                                                                children: [
+                                                                                  Positioned(
+                                                                                    top: position.dy, // Set the top position based on the tapped widget's position
+                                                                                    right: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        borderRadius: BorderRadius.circular(12),
+                                                                                        color: Colors.black,
+                                                                                      ),
+                                                                                      child: Column(
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        children: [
+                                                                                          TextButton(
+                                                                                            onPressed: () {
+                                                                                              // perform copy operation
+                                                                                              Navigator.pop(context); // Close the dialog
+                                                                                            },
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                SvgPicture.asset("images/copy.svg"),
+                                                                                                SizedBox(
+                                                                                                  width: 8,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  "복사",
+                                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                          SvgPicture.asset("images/pop_up_divider.svg"),
+                                                                                          TextButton(
+                                                                                            onPressed: () {
+                                                                                              // Perform delete operation
+                                                                                              Navigator.pop(context); // Close the dialog
+                                                                                            },
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                SvgPicture.asset("images/delete.svg"),
+                                                                                                SizedBox(
+                                                                                                  width: 8,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  "삭제",
+                                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        );
+                                                                      },
+                                                                    )
+                                                                  : InkWell(
+                                                                      child:
+                                                                          Text(
+                                                                        conversation
+                                                                            .message,
+                                                                        style:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              14,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          color:
+                                                                              Colors.black,
+                                                                        ),
+                                                                      ),
+                                                                      onTap:
+                                                                          () {
+                                                                        final RenderBox
+                                                                            box =
+                                                                            context.findRenderObject()
+                                                                                as RenderBox;
+                                                                        final Offset
+                                                                            position =
+                                                                            box.localToGlobal(Offset.zero);
+                                                                        showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          barrierColor:
+                                                                              Colors.transparent,
+                                                                          builder:
+                                                                              (BuildContext context) {
+                                                                            return Container(
+                                                                              padding: EdgeInsets.zero,
+                                                                              // width: 200,
+                                                                              // height: 200,
+                                                                              child: Stack(
+                                                                                children: [
+                                                                                  Positioned(
+                                                                                    top: position.dy, // Set the top position based on the tapped widget's position
+                                                                                    right: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        borderRadius: BorderRadius.circular(12),
+                                                                                        color: Colors.black,
+                                                                                      ),
+                                                                                      child: Column(
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        children: [
+                                                                                          TextButton(
+                                                                                            onPressed: () {
+                                                                                              // perform copy operation
+                                                                                              Navigator.pop(context); // Close the dialog
+                                                                                            },
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                SvgPicture.asset("images/copy.svg"),
+                                                                                                SizedBox(
+                                                                                                  width: 8,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  "복사",
+                                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                          SvgPicture.asset("images/pop_up_divider.svg"),
+                                                                                          TextButton(
+                                                                                            onPressed: () {
+                                                                                              // Perform delete operation
+                                                                                              Navigator.pop(context); // Close the dialog
+                                                                                            },
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                SvgPicture.asset("images/delete.svg"),
+                                                                                                SizedBox(
+                                                                                                  width: 8,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  "삭제",
+                                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        );
+                                                                      },
+                                                                    )),
+                                                )
                                               ],
                                             );
                                           },
@@ -1104,23 +1476,105 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                       0xFF545456)),
                                                               child: conversation
                                                                       .isImage
-                                                                  ? ClipRRect(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              12.0),
-                                                                      child: Image
-                                                                          .asset(
-                                                                        conversation
-                                                                            .message,
-                                                                        fit: BoxFit
-                                                                            .cover,
+                                                                  ? InkWell(
+                                                                      overlayColor:
+                                                                          MaterialStatePropertyAll(
+                                                                              Colors.transparent),
+                                                                      child:
+                                                                          ClipRRect(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(12.0),
+                                                                        child: Image
+                                                                            .asset(
+                                                                          conversation
+                                                                              .message,
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
                                                                       ),
+                                                                      onTap:
+                                                                          () {
+                                                                        final RenderBox
+                                                                            box =
+                                                                            context.findRenderObject()
+                                                                                as RenderBox;
+                                                                        final Offset
+                                                                            position =
+                                                                            box.localToGlobal(Offset.zero);
+                                                                        showDialog(
+                                                                          context:
+                                                                              context,
+                                                                          barrierColor:
+                                                                              Colors.transparent,
+                                                                          builder:
+                                                                              (BuildContext context) {
+                                                                            return Container(
+                                                                              padding: EdgeInsets.zero,
+                                                                              // width: 200,
+                                                                              // height: 200,
+                                                                              child: Stack(
+                                                                                children: [
+                                                                                  Positioned(
+                                                                                    top: position.dy, // Set the top position based on the tapped widget's position
+                                                                                    left: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
+                                                                                    child: Container(
+                                                                                      decoration: BoxDecoration(
+                                                                                        borderRadius: BorderRadius.circular(12),
+                                                                                        color: Colors.black,
+                                                                                      ),
+                                                                                      child: Column(
+                                                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                        children: [
+                                                                                          TextButton(
+                                                                                            onPressed: () {
+                                                                                              // perform copy operation
+                                                                                              Navigator.pop(context); // Close the dialog
+                                                                                            },
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                SvgPicture.asset("images/copy.svg"),
+                                                                                                SizedBox(
+                                                                                                  width: 8,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  "복사",
+                                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                          SvgPicture.asset("images/pop_up_divider.svg"),
+                                                                                          TextButton(
+                                                                                            onPressed: () {
+                                                                                              // Perform delete operation
+                                                                                              Navigator.pop(context); // Close the dialog
+                                                                                            },
+                                                                                            child: Row(
+                                                                                              children: [
+                                                                                                SvgPicture.asset("images/delete.svg"),
+                                                                                                SizedBox(
+                                                                                                  width: 8,
+                                                                                                ),
+                                                                                                Text(
+                                                                                                  "삭제",
+                                                                                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          ),
+                                                                                        ],
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        );
+                                                                      },
                                                                     )
-                                                                  : ListTile(
-                                                                      contentPadding:
-                                                                          EdgeInsets.all(
-                                                                              0),
-                                                                      title:
+                                                                  : InkWell(
+                                                                      child:
                                                                           Text(
                                                                         conversation
                                                                             .message,
@@ -1169,7 +1623,12 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                         children: [
                                                                                           TextButton(
                                                                                             onPressed: () {
-                                                                                              // Store the message in a temporary variable and open the user's keyboard
+                                                                                              // Store the message in a temporary variable
+                                                                                              setState(() {
+                                                                                                replyToText = conversation.message;
+                                                                                              });
+
+                                                                                              _focusNode.requestFocus(); // Open the keyboard on the text field
                                                                                               Navigator.pop(context); // Close the dialog
                                                                                             },
                                                                                             child: Row(
@@ -1234,17 +1693,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                         );
                                                                       },
                                                                     ),
-                                                              // Text(
-                                                              //     conversation
-                                                              //         .message,
-                                                              //     style: TextStyle(
-                                                              //         fontSize:
-                                                              //             14,
-                                                              //         fontWeight: FontWeight
-                                                              //             .w500,
-                                                              //         color:
-                                                              //             Colors.white),
-                                                              //   ),
                                                             )),
                                                       ],
                                                     ),
@@ -1280,65 +1728,194 @@ class _ChatRoomState extends State<ChatRoom> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    showBottomSheet(context, "카메라", "images/from_camera.png",
-                        "images/from_gallary.png", "사진 앨범", "닫기");
-                  },
-                  child: Image.asset(
-                    "images/from_camera.png",
-                    width: 32,
-                    height: 32,
-                    color: Color(0xFFAEAEB2),
+          Container(
+            color: Color(0xFF242426),
+            margin: EdgeInsets.only(top: 20),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  replyToText != ""
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                SvgPicture.asset("images/reply.svg"),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "말랑한 우동/호스트 에게 답장",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0XFF0099FF)),
+                                    ),
+                                    Text(
+                                      replyToText.length > 25
+                                          ? replyToText.substring(0, 27) + "..."
+                                          : replyToText,
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.white),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                            Container(
+                              child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      replyToText = "";
+                                    });
+                                  },
+                                  child: SvgPicture.asset(
+                                    "images/close_icon.svg",
+                                    width: 24,
+                                    height: 24,
+                                  )),
+                            ),
+                          ],
+                        )
+                      : SizedBox(
+                          height: 0,
+                        ),
+                  replyToText != ""
+                      ? SizedBox(
+                          height: 14,
+                        )
+                      : SizedBox(
+                          height: 0,
+                        ),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showBottomSheet(
+                              context,
+                              "카메라",
+                              "images/from_camera.png",
+                              "images/from_gallary.png",
+                              "사진 앨범",
+                              "닫기");
+                        },
+                        child: Image.asset(
+                          "images/from_camera.png",
+                          width: 32,
+                          height: 32,
+                          color: Color(0xFFAEAEB2),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: _chatController,
+                          focusNode: _focusNode,
+
+                          cursorColor: Colors.white,
+                          decoration: InputDecoration(
+                            hintText: '메시지를 남겨주세요',
+                            hintStyle:
+                                const TextStyle(color: Color(0xFFAEAEB2)),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(24),
+                              borderSide: BorderSide(color: Color(0xFF545456)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(24),
+                              borderSide: BorderSide(color: Color(0xFF545456)),
+                            ),
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                // Submit the message
+                                if (replyToText != "") {
+                                  setState(() {
+                                    conversations.add(Conversation(
+                                        10,
+                                        "sender",
+                                        _chatController.text,
+                                        "2016-12-28",
+                                        "오전 11:24",
+                                        false,
+                                        false,
+                                        "success",
+                                        true,
+                                        replyToText,
+                                        _chatController.text));
+
+                                    _chatController.text = "";
+                                    latestReplyToText = replyToText;
+                                    replyToText = "";
+                                    _focusNode.unfocus();
+
+                                    // navigateToBottom();
+                                  });
+                                  setState(() {
+                                    replyToText = "";
+                                  });
+                                  showPopupText(context, "복사 되었습니다.", 100);
+                                } else {
+                                  setState(() {
+                                    conversations.add(Conversation(
+                                        10,
+                                        "sender",
+                                        _chatController.text,
+                                        "2016-12-28",
+                                        "오전 12:24",
+                                        false,
+                                        false,
+                                        "success",
+                                        false,
+                                        "",
+                                        ""));
+
+                                    _chatController.text = "";
+                                    replyToText = "";
+                                    _focusNode.unfocus();
+                                  });
+                                }
+                              },
+                              child: Image.asset("images/send_message.png",
+                                  height: 24,
+                                  width: 24,
+                                  color: _chatController.text == ""
+                                      ? Color(0xFFAEAEB2)
+                                      : Color(0xFFDBFF00)),
+                            ),
+                            filled: true,
+                            fillColor: const Color(0xFF444446),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8,
+                              horizontal: 16,
+                            ),
+                          ),
+                          style: const TextStyle(
+                              fontSize: 18, color: Colors.white),
+                          maxLines: null, // Allows multiple lines
+                          textInputAction:
+                              TextInputAction.newline, // Enables newline input
+                          onChanged: (value) {
+                            _checkIfInputIsEmpty(value);
+                            print(replyToText);
+                          },
+                          onSubmitted: (value) {
+                            // _checkIfInputIsEmpty(value);
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: _chatController,
-                    focusNode: _focusNode,
-                    autofocus: true,
-                    cursorColor: Colors.white,
-                    decoration: InputDecoration(
-                      hintText: '메시지를 남겨주세요',
-                      hintStyle: const TextStyle(color: Color(0xFFAEAEB2)),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide(color: Color(0xFF545456)),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide(color: Color(0xFF545456)),
-                      ),
-                      suffixIcon: Image.asset("images/send_message.png",
-                          height: 24,
-                          width: 24,
-                          color: _isInputEmpty
-                              ? Color(0xFFAEAEB2)
-                              : Color(0xFFDBFF00)),
-                      filled: true,
-                      fillColor: const Color(0xFF444446),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 16,
-                      ),
-                    ),
-                    style: const TextStyle(fontSize: 18, color: Colors.white),
-                    maxLines: null, // Allows multiple lines
-                    textInputAction:
-                        TextInputAction.newline, // Enables newline input
-                    onChanged: (value) {
-                      _checkIfInputIsEmpty(value);
-                    },
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
