@@ -110,8 +110,11 @@ class _MyHomePageState extends State<ChatRoom> {
 class _ChatRoomState extends State<ChatRoom> {
   final FocusNode _focusNode = FocusNode();
   List<UserData> users = [
-    UserData("대화명", "images/profile_image.jpg",
-        ["images/brand_one.svg", "images/supreme.jpg", "images/brand_09.jpg"])
+    UserData("대화명", "images/profile_image.jpg", [
+      "images/brand_one.png",
+      "images/brand_two.png",
+      "images/brand_three.png"
+    ])
   ];
 
   List<Conversation> conversations = [];
@@ -182,12 +185,12 @@ class _ChatRoomState extends State<ChatRoom> {
   }
 
   _onLayoutDone(_) {
-    FocusScope.of(context).requestFocus(_focusNode);
+    // FocusScope.of(context).requestFocus(_focusNode);
   }
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_onLayoutDone);
+    // WidgetsBinding.instance.addPostFrameCallback(_onLayoutDone);
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
         _scrollController.animateTo(_scrollController.position.maxScrollExtent,
@@ -231,18 +234,6 @@ class _ChatRoomState extends State<ChatRoom> {
           "failed", false, "", ""),
       Conversation(8, "sender", "images/image_message.jpeg", "2016-12-26",
           "오전 06:36", true, false, "success", false, "", ""),
-      Conversation(
-          9,
-          "sender",
-          "https://github.com/Faysel-Abdella/Codeforces-Solutions",
-          "2016-12-26",
-          "오전 06:50",
-          false,
-          true,
-          "success",
-          false,
-          "",
-          ""),
     ];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -644,7 +635,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                       if (isSelected) {
                                         selectedIndex = index;
                                         if (selectedIndex == 5) {
-                                          _scrollController.jumpTo(400);
+                                          // _scrollController.jumpTo(400);
                                           showForm = true;
                                         } else {
                                           showForm = false;
@@ -2057,6 +2048,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         child: TextField(
                           controller: _chatController,
                           focusNode: _focusNode,
+                          autofocus: false,
 
                           cursorColor: Colors.white,
                           decoration: InputDecoration(

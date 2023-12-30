@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/cetnered_button.dart';
+import 'package:flutter_app_gap/screens/direct_message/chat_room.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -29,8 +30,11 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
   late bool _isKeyboardOpen;
 
   List<UserData> users = [
-    UserData("대화명", "images/profile_image.jpg",
-        ["images/brand_one.svg", "images/supreme.jpg", "images/brand_09.jpg"])
+    UserData("대화명", "images/profile_image.jpg", [
+      "images/brand_one.png",
+      "images/brand_two.png",
+      "images/brand_three.png"
+    ])
   ];
 
   FocusNode _textFieldFocusNode = FocusNode();
@@ -209,6 +213,8 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                                 child: Image.asset(
                                                   users[0].imagePath,
                                                   fit: BoxFit.cover,
+                                                  width: 37.77,
+                                                  height: 16,
                                                 ),
                                               ),
                                             ),
@@ -404,7 +410,16 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                       // The button
 
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            _isProfileSelected
+                                ? Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatRoom(),
+                                    ))
+                                : null;
+                            // Handle button press
+                          },
                           style: ButtonStyle(
                             backgroundColor: _isProfileSelected
                                 ? MaterialStateProperty.all<Color>(
