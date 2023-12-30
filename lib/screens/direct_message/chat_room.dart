@@ -111,7 +111,7 @@ class _ChatRoomState extends State<ChatRoom> {
   final FocusNode _focusNode = FocusNode();
   List<UserData> users = [
     UserData("대화명", "images/profile_image.jpg",
-        ["images/brand_1.png", "images/supreme.jpg", "images/brand_09.jpg"])
+        ["images/brand_one.svg", "images/supreme.jpg", "images/brand_09.jpg"])
   ];
 
   List<Conversation> conversations = [];
@@ -989,7 +989,7 @@ class _ChatRoomState extends State<ChatRoom> {
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: Image.asset("images/back_arrow.png")),
+              child: SvgPicture.asset("images/back_arrow.svg")),
         ),
         actions: [
           Container(

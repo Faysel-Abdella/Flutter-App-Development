@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomCenteredButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -39,7 +40,7 @@ class CustomCenteredButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
+              SvgPicture.asset(
                 imagePath,
                 width: 24,
                 height: 24,

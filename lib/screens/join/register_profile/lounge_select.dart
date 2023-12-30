@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app_gap/screens/direct_message/start.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BrandSelect extends StatefulWidget {
@@ -12,14 +13,14 @@ class _BrandSelectState extends State<BrandSelect> {
   List<bool> _isSelected = List.generate(8, (index) => false);
 
   final List<String> _imagePaths = [
-    'images/brand_1.png',
-    'images/brand_2.png',
-    'images/brand_3.png',
-    'images/brand_4.png',
-    'images/brand_5.png',
-    'images/brand_6.png',
-    'images/brand_7.png',
-    'images/brand_8.png',
+    'images/brand_one.png',
+    'images/brand_two.png',
+    'images/brand_two_two.png',
+    'images/brand_three.png',
+    'images/brand_four.png',
+    'images/brand_five.png',
+    'images/brand_six.png',
+    'images/brand_seven.png',
   ];
 
   @override
@@ -109,7 +110,7 @@ class _BrandSelectState extends State<BrandSelect> {
                                                       !_isSelected[i];
                                                 });
                                               },
-                                              child: Image.asset(
+                                              child: SvgPicture.asset(
                                                   "images/radio_button_selected.svg"))
                                           : GestureDetector(
                                               onTap: () {
@@ -118,12 +119,32 @@ class _BrandSelectState extends State<BrandSelect> {
                                                       !_isSelected[i];
                                                 });
                                               },
-                                              child: Image.asset(
+                                              child: SvgPicture.asset(
                                                   "images/radio_button_unselected.svg")),
                                       const SizedBox(
                                         width: 16,
                                       ),
-                                      Image.asset(_imagePaths[i])
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(17),
+                                          border: _isSelected[i]
+                                              ? Border.all(
+                                                  width: 1,
+                                                  color: Color(0xFFDBFF00),
+                                                )
+                                              : null,
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                          child: Image.asset(
+                                            _imagePaths[i],
+                                            width: 115,
+                                            height: 48,
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -160,7 +181,7 @@ class _BrandSelectState extends State<BrandSelect> {
                                                 });
                                               },
                                               child: SvgPicture.asset(
-                                                  "images/selected.png"))
+                                                  "images/radio_button_selected.svg"))
                                           : GestureDetector(
                                               onTap: () {
                                                 setState(() {
@@ -169,11 +190,31 @@ class _BrandSelectState extends State<BrandSelect> {
                                                 });
                                               },
                                               child: SvgPicture.asset(
-                                                  "images/un_selected.png")),
+                                                  "images/radio_button_unselected.svg")),
                                       const SizedBox(
                                         width: 16,
                                       ),
-                                      Image.asset(_imagePaths[i])
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(17),
+                                          border: _isSelected[i]
+                                              ? Border.all(
+                                                  width: 0.5,
+                                                  color: Color(0xFFDBFF00),
+                                                )
+                                              : null,
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16.0),
+                                          child: Image.asset(
+                                            _imagePaths[i],
+                                            width: 115,
+                                            height: 48,
+                                          ),
+                                        ),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -203,6 +244,13 @@ class _BrandSelectState extends State<BrandSelect> {
                     ),
                   ),
                   onPressed: () {
+                    _isSelected.any((isSelected) => isSelected)
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MessagePageEntrance(),
+                            ))
+                        : null;
                     // Handle button press
                   },
                   child: const Text(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/cetnered_button.dart';
 
+import 'package:flutter_svg/flutter_svg.dart';
+
 class MessagePageEntrance extends StatefulWidget {
   const MessagePageEntrance({Key? key}) : super(key: key);
 
@@ -28,7 +30,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
 
   List<UserData> users = [
     UserData("대화명", "images/profile_image.jpg",
-        ["images/brand_1.png", "images/supreme.jpg", "images/brand_09.jpg"])
+        ["images/brand_one.svg", "images/supreme.jpg", "images/brand_09.jpg"])
   ];
 
   FocusNode _textFieldFocusNode = FocusNode();
@@ -494,7 +496,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: Image.asset("images/start_message.png")),
+                child: SvgPicture.asset("images/start_message.svg")),
           ),
         ],
       ),
@@ -532,7 +534,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                       });
                     },
                     color: Color(0xFFDBFF00),
-                    imagePath: "images/send_message.png",
+                    imagePath: "images/send_message.svg",
                     buttonText: "메시지 보내기",
                     textColor: Colors.black,
                     height: 36),
