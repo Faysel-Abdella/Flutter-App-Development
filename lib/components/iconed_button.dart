@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class CustomIconedButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -38,7 +39,7 @@ class CustomIconedButton extends StatelessWidget {
           width: double.infinity,
           child: Row(
             children: [
-              Image.asset(
+              SvgPicture.asset(
                 imagePath,
                 width: 24,
                 height: 24,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/iconed_button.dart';
 import 'package:flutter_app_gap/screens/join/login_process/cell_certified.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                           ));
                     },
                     color: const Color(0xFFFAE100),
-                    imagePath: "images/talk_symbol.png",
+                    imagePath: "images/talk_symbol.svg",
                     buttonText: "카카오로 시작하기",
                     textColor: Colors.black,
                     height: 36,
@@ -67,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
                           ));
                     },
                     color: const Color(0xFF5ACB15),
-                    imagePath: "images/n_symbol.png",
+                    imagePath: "images/n_symbol.svg",
                     buttonText: "네이버로 시작하기",
                     textColor: const Color(0xFF242426),
                     height: 36,
@@ -84,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
                           ));
                     },
                     color: const Color(0xFF363638),
-                    imagePath: "images/apple_symbol.png",
+                    imagePath: "images/apple_symbol.svg",
                     buttonText: "Apple로 시작하기",
                     textColor: Colors.white,
                     height: 36,
@@ -101,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                           ));
                     },
                     color: Colors.white,
-                    imagePath: "images/google_symbol.png",
+                    imagePath: "images/google_symbol.svg",
                     buttonText: "구글로 시작하기",
                     textColor: Colors.black,
                     height: 36,

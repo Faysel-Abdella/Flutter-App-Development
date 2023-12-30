@@ -140,6 +140,9 @@ class _ChatRoomState extends State<ChatRoom> {
   late TextEditingController _reportController;
   late String replyToText;
   late String latestReplyToText;
+
+  bool _isNotificationTurnOn = false;
+
   ScrollController _scrollController = ScrollController();
   late bool _isInputEmpty;
   String copiedText = '';
@@ -178,14 +181,34 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
+  _onLayoutDone(_) {
+    FocusScope.of(context).requestFocus(_focusNode);
+  }
+
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_onLayoutDone);
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        _scrollController.animateTo(_scrollController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 500), curve: Curves.ease);
+      }
+    });
+
+    _focusNode.addListener(() {
+      if (_focusNode.hasFocus) {
+        _scrollController.animateTo(180,
+            duration: Duration(milliseconds: 50), curve: Curves.ease);
+      }
+    });
+
     super.initState();
     _chatController = TextEditingController();
     _reportController = TextEditingController();
     _isInputEmpty = true;
     replyToText = "";
     latestReplyToText = "";
+    _isNotificationTurnOn = false;
     showForm = false;
     if (selectedIndex == 5) {
       showForm = true;
@@ -309,7 +332,147 @@ class _ChatRoomState extends State<ChatRoom> {
     );
   }
 
-  void showBottomSheet(
+  void showFirstBottomSheet(
+    BuildContext context,
+    icon1,
+    text1,
+    icon2,
+    text2,
+    icon3,
+    text3,
+    icon4,
+    text4,
+    btnTxt,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(20),
+          height: 248,
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(25), topLeft: Radius.circular(25)),
+              color: Color(0xFF545456)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _isNotificationTurnOn = !_isNotificationTurnOn;
+                  });
+                  Navigator.pop(context);
+                  String pupopText =
+                      _isNotificationTurnOn ? "알림을 ON 합니다." : "알림을 OFF 합니다.";
+                  showPopupText(context, pupopText, 100);
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      _isNotificationTurnOn
+                          ? icon1
+                          : "images/notification_turn_off.svg",
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      text1,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  showBottomSheet2(context);
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      icon2,
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      text2,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                // onTap: () async => await pickSvgPicture(),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      icon3,
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      text3,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ),
+              GestureDetector(
+                // onTap: () async => await pickSvgPicture(),
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      icon4,
+                      width: 24,
+                      height: 24,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      text4,
+                      style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Color(0xFFFF0089)),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox.shrink(),
+              CustomFreeButton(
+                  height: 36,
+                  textColor: Color(0xFF242426),
+                  color: Color(0xFFDBFF00),
+                  content: btnTxt)
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void showImageSendBottomSheet(
     BuildContext context,
     text1,
     icon1,
@@ -394,23 +557,24 @@ class _ChatRoomState extends State<ChatRoom> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      //useRootNavigator: true,
       constraints:
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.95),
       builder: (BuildContext context) {
-        return DraggableScrollableSheet(
-          initialChildSize: 0.4,
-          minChildSize: 0.2,
-          maxChildSize: 0.75,
-          expand: false,
-          builder: (BuildContext context, ScrollController scrollController) {
-            return SingleChildScrollView(
-              controller: scrollController,
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+          return SingleChildScrollView(
+            controller: _scrollController,
+            child: Padding(
+              padding: MediaQuery.of(context).viewInsets,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    height: showForm
-                        ? MediaQuery.of(context).size.height * 0.95
-                        : MediaQuery.of(context).size.height * 0.65,
+                    //height: ,
+                    // height: showForm
+                    //   // MediaQuery.of(context).size.height * 0.95
+                    //     : MediaQuery.of(context).size.height * 0.65,
                     padding: const EdgeInsets.all(20),
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
@@ -475,12 +639,16 @@ class _ChatRoomState extends State<ChatRoom> {
                                   contentPadding: EdgeInsets.zero,
                                   onTap: () {
                                     setState(() {
-                                      selectedIndex = index;
-                                      if (selectedIndex == 5) {
-                                        showForm = true;
-                                        print(options[5].toString());
-                                      } else {
-                                        showForm = false;
+                                      isSelected =
+                                          !isSelected; // Toggle isSelected state
+                                      if (isSelected) {
+                                        selectedIndex = index;
+                                        if (selectedIndex == 5) {
+                                          _scrollController.jumpTo(400);
+                                          showForm = true;
+                                        } else {
+                                          showForm = false;
+                                        }
                                       }
                                     });
                                   },
@@ -488,7 +656,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                     width: 24.0,
                                     height: 24.0,
                                     child: SvgPicture.asset(
-                                      isSelected
+                                      (index == selectedIndex)
                                           ? 'images/radio_button_selected.svg'
                                           : 'images/radio_button_unselected.svg',
                                     ),
@@ -496,9 +664,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                   title: Text(
                                     options[index],
                                     style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: Colors.white),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                   tileColor: isSelected
                                       ? Colors.blue
@@ -537,52 +706,71 @@ class _ChatRoomState extends State<ChatRoom> {
                                 SizedBox(
                                   height: 11,
                                 ),
-                                Container(
-                                  height: 176,
-                                  child: TextField(
-                                    controller: _reportController,
-                                    cursorColor: Colors.white,
-                                    minLines: 10,
+                                InkWell(
+                                  onTap: () {
+                                    FocusScope.of(context)
+                                        .requestFocus(FocusNode());
 
-                                    maxLength: 500,
-                                    maxLines: null, // Allows multiple lines
-                                    textInputAction: TextInputAction
-                                        .newline, // Enables newline input
-                                    decoration: InputDecoration(
-                                      hintText: '신고 내용을 입력해 주세요.',
-                                      hintStyle: const TextStyle(
-                                          color: Color(0xFFAEAEB2)),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(16),
-                                        borderSide: BorderSide(
-                                            color: Color(0xFF7C7C80)),
+                                    _scrollController.jumpTo(200);
+                                  },
+                                  child: Container(
+                                    height: 176,
+                                    child: TextField(
+                                      controller: _reportController,
+                                      cursorColor: Colors.white,
+                                      onTap: () {
+                                        // _scrollController.jumpTo(400);
+                                      },
+                                      minLines: 10,
+                                      scrollPadding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context)
+                                                  .viewInsets
+                                                  .bottom +
+                                              16 * 4),
+                                      maxLength: 500,
+                                      //   focusNode: _focusNode,
+                                      maxLines: null, // Allows multiple lines
+                                      textInputAction: TextInputAction
+                                          .newline, // Enables newline input
+                                      decoration: InputDecoration(
+                                        hintText: '신고 내용을 입력해 주세요.',
+                                        hintStyle: const TextStyle(
+                                            color: Color(0xFFAEAEB2)),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF7C7C80)),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                          borderSide: BorderSide(
+                                              color: Color(0xFF7C7C80)),
+                                        ),
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                          vertical: 8,
+                                          horizontal: 16,
+                                        ),
                                       ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(24),
-                                        borderSide: BorderSide(
-                                            color: Color(0xFF7C7C80)),
-                                      ),
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                        vertical: 8,
-                                        horizontal: 16,
-                                      ),
+                                      buildCounter: (BuildContext context,
+                                          {int? currentLength,
+                                          int? maxLength,
+                                          bool? isFocused}) {
+                                        return Text(
+                                          '$currentLength / $maxLength',
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.white),
+                                        );
+                                      },
+
+                                      style: const TextStyle(
+                                          fontSize: 18, color: Colors.white),
+
+                                      onChanged: (value) {},
                                     ),
-                                    buildCounter: (BuildContext context,
-                                        {int? currentLength,
-                                        int? maxLength,
-                                        bool? isFocused}) {
-                                      return Text(
-                                        '$currentLength / $maxLength',
-                                        style: TextStyle(
-                                            fontSize: 12, color: Colors.white),
-                                      );
-                                    },
-
-                                    style: const TextStyle(
-                                        fontSize: 18, color: Colors.white),
-
-                                    onChanged: (value) {},
                                   ),
                                 ),
                                 SizedBox(
@@ -604,9 +792,46 @@ class _ChatRoomState extends State<ChatRoom> {
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: SvgPicture.asset(
-                                        "images/import_image.svg"))
+                                        "images/import_image.svg")),
+                                SizedBox(
+                                  height: 24,
+                                ),
+                                TextField(
+                                  onTap: () {
+                                    // _scrollController.jumpTo(20000);
+                                  },
+                                  // controller: _reportController,
+                                  cursorColor: Color(0xFF0099FF),
+                                  decoration: InputDecoration(
+                                    hintText: '이메일 입력',
+                                    hintStyle: const TextStyle(
+                                        color: Color(0xFFAEAEB2)),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF7C7C80)),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide:
+                                          BorderSide(color: Color(0xFF7C7C80)),
+                                    ),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                      vertical: 6,
+                                      horizontal: 16,
+                                    ),
+                                  ),
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
+                                  onChanged: (value) {},
+                                ),
                               ]),
                             ),
+                          SizedBox(
+                            height: 41,
+                          ),
 
                           // The report button
                           ElevatedButton(
@@ -655,9 +880,9 @@ class _ChatRoomState extends State<ChatRoom> {
                   ),
                 ],
               ),
-            );
-          },
-        );
+            ),
+          );
+        });
       },
     );
   }
@@ -768,13 +993,25 @@ class _ChatRoomState extends State<ChatRoom> {
         ),
         actions: [
           Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: EdgeInsets.only(right: 16),
             child: GestureDetector(
                 onTap: () {
-                  showBottomSheet2(context);
+                  showFirstBottomSheet(
+                      context,
+                      "images/notification.svg",
+                      "알림끄기",
+                      "images/report.svg",
+                      "신고하기",
+                      "images/hide.svg",
+                      "숨기기",
+                      "images/exit_from_message.svg",
+                      "다이렉트 메시지 나가기",
+                      "닫기");
                 },
-                child: Image.asset("images/three_dots.png")),
+                child: Container(
+                    padding: EdgeInsets.only(
+                      right: 26,
+                    ),
+                    child: Image.asset("images/three_dots.png"))),
           ),
         ],
       ),
@@ -1798,7 +2035,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          showBottomSheet(
+                          showImageSendBottomSheet(
                               context,
                               "카메라",
                               "images/from_camera.png",

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/button.dart';
 import 'package:flutter_app_gap/screens/join/login_process/login.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class AllowAccessPage extends StatefulWidget {
   const AllowAccessPage({Key? key}) : super(key: key);
@@ -80,8 +81,8 @@ class _AllowAccessPageState extends State<AllowAccessPage> {
                             color: const Color(0xFF7C7C80),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Image(
-                            image: AssetImage('images/file_symbol.png'),
+                          child: SvgPicture.asset(
+                            'images/file_symbol.svg',
                             width: 24,
                             height: 24,
                           ),
@@ -125,8 +126,8 @@ class _AllowAccessPageState extends State<AllowAccessPage> {
                             color: const Color(0xFF7C7C80),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Image(
-                            image: AssetImage('images/camera_symbol.png'),
+                          child: SvgPicture.asset(
+                            'images/camera_symbol.svg',
                             width: 24,
                             height: 24,
                           ),
@@ -171,8 +172,8 @@ class _AllowAccessPageState extends State<AllowAccessPage> {
                             color: const Color(0xFF7C7C80),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Image(
-                            image: AssetImage('images/image_symbol.png'),
+                          child: SvgPicture.asset(
+                            'images/image_symbol.svg',
                             width: 24,
                             height: 24,
                           ),
@@ -216,8 +217,8 @@ class _AllowAccessPageState extends State<AllowAccessPage> {
                             color: const Color(0xFF7C7C80),
                             borderRadius: BorderRadius.circular(16),
                           ),
-                          child: const Image(
-                            image: AssetImage('images/notification_symbol.png'),
+                          child: SvgPicture.asset(
+                            'images/notification_symbol.svg',
                             width: 24,
                             height: 24,
                           ),
