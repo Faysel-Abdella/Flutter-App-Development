@@ -704,6 +704,7 @@ class _ChatRoomState extends State<ChatRoom> {
 
                                     _scrollController.jumpTo(200);
                                   },
+                                  
                                   child: Container(
                                     height: 176,
                                     child: TextField(
