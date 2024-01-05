@@ -962,7 +962,11 @@ class _ChatRoomState extends State<ChatRoom> {
                 Positioned(
                     right: 0,
                     bottom: 0,
-                    child: Image.asset("images/profile_emoji.png"))
+                    child: Image.asset(
+                      "images/badge_large.png",
+                      width: 15,
+                      height: 15,
+                    ))
               ]),
               const SizedBox(width: 8),
               Column(
@@ -1026,7 +1030,11 @@ class _ChatRoomState extends State<ChatRoom> {
               onTap: () {
                 Navigator.of(context).pop();
               },
-              child: SvgPicture.asset("images/back_arrow.svg")),
+              child: Image.asset(
+                "images/left_arrow.png",
+                height: 24,
+                width: 24,
+              )),
         ),
         actions: [
           Container(
@@ -1048,7 +1056,11 @@ class _ChatRoomState extends State<ChatRoom> {
                     padding: const EdgeInsets.only(
                       right: 26,
                     ),
-                    child: Image.asset("images/three_dots.png"))),
+                    child: Image.asset(
+                      "images/dots.png",
+                      height: 24,
+                      width: 24,
+                    ))),
           ),
         ],
       ),
@@ -1088,7 +1100,9 @@ class _ChatRoomState extends State<ChatRoom> {
                                 right: 0,
                                 bottom: 0,
                                 child: Image.asset(
-                                  "images/profile_emoji_large.png",
+                                  "images/badge_large.png",
+                                  height: 30,
+                                  width: 30,
                                 ))
                           ]),
                           const SizedBox(
