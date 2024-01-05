@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter_link_previewer/flutter_link_previewer.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' show PreviewData;
 import 'package:flutter_app_gap/components/button.dart';
-import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 
 class ChatRoom extends StatefulWidget {
   const ChatRoom({Key? key}) : super(key: key);
@@ -39,6 +38,10 @@ class Conversation {
   String? replyTo;
   String? replyText;
 
+  String previewImage;
+  String previewTitle;
+  String previewText;
+
   Conversation(
       this.id,
       this.role,
@@ -50,61 +53,10 @@ class Conversation {
       this.status,
       this.isReply,
       this.replyTo,
-      this.replyText);
-}
-
-class _MyHomePageState extends State<ChatRoom> {
-  Map<String, PreviewData> datas = {};
-
-  List<String> get urls => const [
-        'github.com/flyerhq',
-        'https://u24.gov.ua',
-        'https://twitter.com/SpaceX/status/1564975288655630338',
-      ];
-
-  @override
-  Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: ListView.builder(
-        itemCount: urls.length,
-        itemBuilder: (context, index) => Align(
-          alignment: Alignment.centerLeft,
-          child: Container(
-            key: ValueKey(urls[index]),
-            margin: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-              color: Color(0xfff7f7f8),
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(20),
-              ),
-              child: LinkPreview(
-                enableAnimation: true,
-                onPreviewDataFetched: (data) {
-                  setState(() {
-                    datas = {
-                      ...datas,
-                      urls[index]: data,
-                    };
-                  });
-                },
-                previewData: datas[urls[index]],
-                text: urls[index],
-                width: MediaQuery.of(context).size.width,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+      this.replyText,
+      this.previewImage,
+      this.previewTitle,
+      this.previewText);
 }
 
 class _ChatRoomState extends State<ChatRoom> {
@@ -145,9 +97,12 @@ class _ChatRoomState extends State<ChatRoom> {
   late String latestReplyToText;
 
   bool _isNotificationTurnOn = false;
+  bool _isReasonEmpty = true;
+  bool _isEmailEmpty = true;
+  bool _isEmailValid = false;
 
   ScrollController _scrollController = ScrollController();
-  late bool _isInputEmpty;
+
   String copiedText = '';
 
   RadioGroupController optionController = RadioGroupController();
@@ -184,13 +139,8 @@ class _ChatRoomState extends State<ChatRoom> {
     }
   }
 
-  _onLayoutDone(_) {
-    // FocusScope.of(context).requestFocus(_focusNode);
-  }
-
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback(_onLayoutDone);
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
         _scrollController.animateTo(_scrollController.position.maxScrollExtent,
@@ -208,32 +158,64 @@ class _ChatRoomState extends State<ChatRoom> {
     super.initState();
     _chatController = TextEditingController();
     _reportController = TextEditingController();
-    _isInputEmpty = true;
+
     replyToText = "";
     latestReplyToText = "";
     _isNotificationTurnOn = false;
     showForm = false;
+
+    _isReasonEmpty = true;
+    _isEmailEmpty = true;
+    _isEmailValid = true;
     if (selectedIndex == 5) {
       showForm = true;
     }
 
     conversations = [
       Conversation(1, "sender", "안녕하세요~", "2016-12-25", "오전 11:24", false,
-          false, "success", false, "", ""),
+          false, "success", false, "", "", "", "", ""),
       Conversation(2, "receiver", "안녕하세요*^^* 🤟🏻", "2016-12-25", "오전 11:50",
-          false, false, "success", false, "", ""),
+          false, false, "success", false, "", "", "", "", ""),
       Conversation(3, "sender", "별다방님 다음달 고아웃 가실건가요?", "2016-12-25", "오전 11:55",
-          false, false, "success", false, "", ""),
+          false, false, "success", false, "", "", "", "", ""),
       Conversation(4, "sender", "전 갈려구요 👩🏼‍🌾", "2016-12-25", "오전 12:00",
-          false, false, "success", false, "", ""),
-      Conversation(5, "receiver", "저도 갈건데 제가 내일 연락 드릴께요. 짐 머 좀 하고 있어서요 ^^",
-          "2016-12-25", "오전 12:06", false, false, "success", false, "", ""),
+          false, false, "success", false, "", "", "", "", ""),
+      Conversation(
+          5,
+          "receiver",
+          "저도 갈건데 제가 내일 연락 드릴께요. 짐 머 좀 하고 있어서요 ^^",
+          "2016-12-25",
+          "오전 12:06",
+          false,
+          false,
+          "success",
+          false,
+          "",
+          "",
+          "",
+          "",
+          ""),
       Conversation(6, "receiver", "어제 죄송했어요. 고아웃 담달 가시게요?", "2016-12-26",
-          "오전 12:10", false, false, "success", false, "", ""),
+          "오전 12:10", false, false, "success", false, "", "", "", "", ""),
       Conversation(7, "sender", "넵!!", "2016-12-26", "오전 04:15", false, false,
-          "failed", false, "", ""),
+          "failed", false, "", "", "", "", ""),
       Conversation(8, "sender", "images/image_message.jpeg", "2016-12-26",
-          "오전 06:36", true, false, "success", false, "", ""),
+          "오전 06:36", true, false, "success", false, "", "", "", "", ""),
+      Conversation(
+          9,
+          "sender",
+          "https://blog.naver.com/bhg202",
+          "2023-12-29",
+          "오전 04:15",
+          false,
+          true,
+          "success",
+          false,
+          "",
+          "",
+          "image/image_preview.png",
+          "우리의 최종목적은 함께 재밌게 우리의 최종목적은 함께 재밌게 노는 캠핑이란 말이닷! 👏",
+          "고아웃 슈퍼하이킹 1회 후기")
     ];
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -258,12 +240,20 @@ class _ChatRoomState extends State<ChatRoom> {
 
   void _checkIfInputIsEmpty(value) {
     if (value.length == 0 || value == "") {
+      setState(() {});
+    } else {
+      setState(() {});
+    }
+  }
+
+  void _validateEmail(email) {
+    if (email.contains('@')) {
       setState(() {
-        _isInputEmpty = true;
+        _isEmailValid = true;
       });
     } else {
       setState(() {
-        _isInputEmpty = false;
+        _isEmailValid = false;
       });
     }
   }
@@ -274,7 +264,7 @@ class _ChatRoomState extends State<ChatRoom> {
       barrierColor: Colors.transparent,
       builder: (BuildContext context) {
         Timer(Duration(seconds: 2), () {
-          Navigator.of(context).pop(); // Close the dialog after 2 seconds
+          Navigator.of(context).pop();
         });
 
         return Positioned(
@@ -548,7 +538,6 @@ class _ChatRoomState extends State<ChatRoom> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      //useRootNavigator: true,
       constraints:
           BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.95),
       builder: (BuildContext context) {
@@ -562,10 +551,6 @@ class _ChatRoomState extends State<ChatRoom> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    //height: ,
-                    // height: showForm
-                    //   // MediaQuery.of(context).size.height * 0.95
-                    //     : MediaQuery.of(context).size.height * 0.65,
                     padding: const EdgeInsets.all(20),
                     decoration: const BoxDecoration(
                         borderRadius: BorderRadius.only(
@@ -635,7 +620,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                       if (isSelected) {
                                         selectedIndex = index;
                                         if (selectedIndex == 5) {
-                                          // _scrollController.jumpTo(400);
                                           showForm = true;
                                         } else {
                                           showForm = false;
@@ -704,15 +688,12 @@ class _ChatRoomState extends State<ChatRoom> {
 
                                     _scrollController.jumpTo(200);
                                   },
-                                  
                                   child: Container(
                                     height: 176,
                                     child: TextField(
                                       controller: _reportController,
                                       cursorColor: Colors.white,
-                                      onTap: () {
-                                        // _scrollController.jumpTo(400);
-                                      },
+                                      onTap: () {},
                                       minLines: 10,
                                       scrollPadding: EdgeInsets.only(
                                           bottom: MediaQuery.of(context)
@@ -720,7 +701,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                                   .bottom +
                                               16 * 4),
                                       maxLength: 500,
-                                      //   focusNode: _focusNode,
                                       maxLines: null, // Allows multiple lines
                                       textInputAction: TextInputAction
                                           .newline, // Enables newline input
@@ -736,7 +716,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
-                                              BorderRadius.circular(24),
+                                              BorderRadius.circular(16),
                                           borderSide: BorderSide(
                                               color: Color(0xFF7C7C80)),
                                         ),
@@ -761,7 +741,15 @@ class _ChatRoomState extends State<ChatRoom> {
                                       style: const TextStyle(
                                           fontSize: 18, color: Colors.white),
 
-                                      onChanged: (value) {},
+                                      onChanged: (value) {
+                                        setState(() {
+                                          if (value == "" || value == " ") {
+                                            _isReasonEmpty = true;
+                                          } else {
+                                            _isReasonEmpty = false;
+                                          }
+                                        });
+                                      },
                                     ),
                                   ),
                                 ),
@@ -789,10 +777,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                   height: 24,
                                 ),
                                 TextField(
-                                  onTap: () {
-                                    // _scrollController.jumpTo(20000);
-                                  },
-                                  // controller: _reportController,
+                                  onTap: () {},
                                   cursorColor: Color(0xFF0099FF),
                                   decoration: InputDecoration(
                                     hintText: '이메일 입력',
@@ -817,26 +802,64 @@ class _ChatRoomState extends State<ChatRoom> {
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                       color: Colors.white),
-                                  onChanged: (value) {},
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value == "" || value == " ") {
+                                        _isEmailEmpty = true;
+                                      } else {
+                                        _isEmailEmpty = false;
+                                      }
+                                    });
+                                    if (value != "" && value != " ") {
+                                      _validateEmail(value);
+                                    } else {
+                                      setState(() {
+                                        _isEmailValid = true;
+                                      });
+                                    }
+                                  },
                                 ),
                               ]),
                             ),
                           SizedBox(
-                            height: 41,
+                            height: 4,
+                          ),
+                          !_isEmailValid && selectedIndex == 5
+                              ? Container(
+                                  height: 12,
+                                  child: Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                      "올바른 이메일 형식이 아닙니다.",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFFFF0089)),
+                                    ),
+                                  ),
+                                )
+                              : SizedBox(
+                                  height: 12,
+                                ),
+
+                          SizedBox(
+                            height: 28,
                           ),
 
                           // The report button
                           ElevatedButton(
                               onPressed: () {},
                               style: ButtonStyle(
-                                backgroundColor: selectedIndex != -1 &&
-                                            selectedIndex != 5 ||
-                                        selectedIndex == 5 &&
-                                            _reportController.text.isNotEmpty
-                                    ? MaterialStateProperty.all<Color>(
-                                        const Color(0xFFDBFF00))
-                                    : MaterialStateProperty.all<Color>(
-                                        const Color(0xFF7C7C80)),
+                                backgroundColor:
+                                    selectedIndex != -1 && selectedIndex != 5 ||
+                                            selectedIndex == 5 &&
+                                                !_isReasonEmpty &&
+                                                !_isEmailEmpty &&
+                                                _isEmailValid
+                                        ? MaterialStateProperty.all<Color>(
+                                            const Color(0xFFDBFF00))
+                                        : MaterialStateProperty.all<Color>(
+                                            const Color(0xFF7C7C80)),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
@@ -1267,23 +1290,155 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                   .size
                                                                   .width /
                                                               1.6),
-                                                  child: Container(
-                                                      padding: conversation
-                                                              .isImage
-                                                          ? EdgeInsets.all(0)
-                                                          : EdgeInsets
-                                                              .symmetric(
-                                                                  horizontal:
-                                                                      12,
-                                                                  vertical: 6),
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(12),
-                                                          color: Colors.yellow),
-                                                      child: conversation.isLink
-                                                          ? null // Here preview the link
-                                                          : conversation.isImage
+                                                  child: conversation.isLink
+                                                      ? Container(
+                                                          child: Column(
+                                                            children: [
+                                                              Container(
+                                                                padding: EdgeInsets
+                                                                    .symmetric(
+                                                                        horizontal:
+                                                                            12,
+                                                                        vertical:
+                                                                            6),
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12),
+                                                                  color: Colors
+                                                                      .yellow,
+                                                                ),
+                                                                child: InkWell(
+                                                                  child: Text(
+                                                                    conversation
+                                                                        .message,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          14,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      color: Colors
+                                                                          .black,
+                                                                    ),
+                                                                  ),
+                                                                  onTap: () {
+                                                                    final RenderBox
+                                                                        box =
+                                                                        context.findRenderObject()
+                                                                            as RenderBox;
+                                                                    final Offset
+                                                                        position =
+                                                                        box.localToGlobal(
+                                                                            Offset.zero);
+                                                                    showDialog(
+                                                                      context:
+                                                                          context,
+                                                                      barrierColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      builder:
+                                                                          (BuildContext
+                                                                              context) {
+                                                                        return Container(
+                                                                          padding:
+                                                                              EdgeInsets.zero,
+                                                                          child:
+                                                                              Stack(
+                                                                            children: [
+                                                                              Positioned(
+                                                                                top: position.dy, // Set the top position based on the tapped widget's position
+                                                                                right: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
+                                                                                child: Container(
+                                                                                  decoration: BoxDecoration(
+                                                                                    borderRadius: BorderRadius.circular(12),
+                                                                                    color: Colors.black,
+                                                                                  ),
+                                                                                  child: Column(
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    children: [
+                                                                                      TextButton(
+                                                                                        onPressed: () {
+                                                                                          // perform copy operation
+                                                                                          Navigator.pop(context); // Close the dialog
+                                                                                        },
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            SvgPicture.asset("images/copy.svg"),
+                                                                                            SizedBox(
+                                                                                              width: 8,
+                                                                                            ),
+                                                                                            Text(
+                                                                                              "복사",
+                                                                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                      SvgPicture.asset("images/pop_up_divider.svg"),
+                                                                                      TextButton(
+                                                                                        onPressed: () {
+                                                                                          // Perform delete operation
+                                                                                          Navigator.pop(context); // Close the dialog
+                                                                                        },
+                                                                                        child: Row(
+                                                                                          children: [
+                                                                                            SvgPicture.asset("images/delete.svg"),
+                                                                                            SizedBox(
+                                                                                              width: 8,
+                                                                                            ),
+                                                                                            Text(
+                                                                                              "삭제",
+                                                                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ],
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        );
+                                                                      },
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              ),
+                                                              Column(
+                                                                children: [
+                                                                  Image.asset(
+                                                                      conversation
+                                                                          .previewImage)
+                                                                ],
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : Container(
+                                                          padding: conversation
+                                                                  .isImage
+                                                              ? EdgeInsets.all(
+                                                                  0)
+                                                              : EdgeInsets
+                                                                  .symmetric(
+                                                                      horizontal:
+                                                                          12,
+                                                                      vertical:
+                                                                          6),
+                                                          decoration: BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                              color: Colors
+                                                                  .yellow),
+                                                          child: conversation
+                                                                  .isImage
                                                               ? InkWell(
                                                                   overlayColor:
                                                                       MaterialStatePropertyAll(
@@ -1323,13 +1478,11 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                         return Container(
                                                                           padding:
                                                                               EdgeInsets.zero,
-                                                                          // width: 200,
-                                                                          // height: 200,
                                                                           child:
                                                                               Stack(
                                                                             children: [
                                                                               Positioned(
-                                                                                top: position.dy, // Set the top position based on the tapped widget's position
+                                                                                top: position.dy,
                                                                                 left: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
                                                                                 child: Container(
                                                                                   decoration: BoxDecoration(
@@ -1437,12 +1590,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                               (BuildContext context) {
                                                                             return Container(
                                                                               padding: EdgeInsets.zero,
-                                                                              // width: 200,
-                                                                              // height: 200,
                                                                               child: Stack(
                                                                                 children: [
                                                                                   Positioned(
-                                                                                    top: position.dy, // Set the top position based on the tapped widget's position
+                                                                                    top: position.dy,
                                                                                     right: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
                                                                                     child: Container(
                                                                                       decoration: BoxDecoration(
@@ -1533,8 +1684,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                               (BuildContext context) {
                                                                             return Container(
                                                                               padding: EdgeInsets.zero,
-                                                                              // width: 200,
-                                                                              // height: 200,
                                                                               child: Stack(
                                                                                 children: [
                                                                                   Positioned(
@@ -1739,8 +1888,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                               (BuildContext context) {
                                                                             return Container(
                                                                               padding: EdgeInsets.zero,
-                                                                              // width: 200,
-                                                                              // height: 200,
                                                                               child: Stack(
                                                                                 children: [
                                                                                   Positioned(
@@ -1835,8 +1982,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                               (BuildContext context) {
                                                                             return Container(
                                                                               padding: EdgeInsets.zero,
-                                                                              // width: 200,
-                                                                              // height: 200,
                                                                               child: Stack(
                                                                                 children: [
                                                                                   Positioned(
@@ -1852,7 +1997,6 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                         children: [
                                                                                           TextButton(
                                                                                             onPressed: () {
-                                                                                              // Store the message in a temporary variable
                                                                                               setState(() {
                                                                                                 replyToText = conversation.message;
                                                                                               });
@@ -2069,25 +2213,27 @@ class _ChatRoomState extends State<ChatRoom> {
                                 // Submit the message
                                 if (replyToText != "") {
                                   setState(() {
-                                    conversations.add(Conversation(
-                                        10,
-                                        "sender",
-                                        _chatController.text,
-                                        "2016-12-28",
-                                        "오전 11:24",
-                                        false,
-                                        false,
-                                        "success",
-                                        true,
-                                        replyToText,
-                                        _chatController.text));
+                                    // conversations.add(Conversation(
+                                    //   10,
+                                    //   "sender",
+                                    //   _chatController.text,
+                                    //   "2016-12-28",
+                                    //   "오전 11:24",
+                                    //   false,
+                                    //   false,
+                                    //   "success",
+                                    //   true,
+                                    //   replyToText,
+                                    //   _chatController.text,
+                                    //   "",
+                                    //   "",
+                                    //   "",
+                                    // ));
 
                                     _chatController.text = "";
                                     latestReplyToText = replyToText;
                                     replyToText = "";
                                     _focusNode.unfocus();
-
-                                    // navigateToBottom();
                                   });
                                   setState(() {
                                     replyToText = "";
@@ -2106,7 +2252,13 @@ class _ChatRoomState extends State<ChatRoom> {
                                         "success",
                                         false,
                                         "",
-                                        ""));
+                                        "",
+                                        "",
+                                        //   "",
+                                        "",
+                                        ""
+                                        //
+                                        ));
 
                                     _chatController.text = "";
                                     replyToText = "";
@@ -2135,11 +2287,8 @@ class _ChatRoomState extends State<ChatRoom> {
                               TextInputAction.newline, // Enables newline input
                           onChanged: (value) {
                             _checkIfInputIsEmpty(value);
-                            print(replyToText);
                           },
-                          onSubmitted: (value) {
-                            // _checkIfInputIsEmpty(value);
-                          },
+                          onSubmitted: (value) {},
                         ),
                       ),
                     ],

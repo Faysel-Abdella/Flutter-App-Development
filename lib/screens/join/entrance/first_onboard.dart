@@ -16,7 +16,7 @@ class FirstOnBoardPage extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 1, 7, 1),
+      backgroundColor: Color(0xFF242426),
       body: SafeArea(
         child: Container(
           child: LayoutBuilder(

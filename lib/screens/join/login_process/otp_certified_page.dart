@@ -169,6 +169,7 @@ class _OTPPageState extends State<OTPPage> {
                                   const EdgeInsets.only(top: 5, bottom: 16),
                               backgroundColor: Colors
                                   .black, // Set the background color to black
+                              titlePadding: EdgeInsets.only(top: 6),
                               title: const Text(
                                 "인증코드를\n다시 확인해 주세요.",
                                 style: TextStyle(
@@ -224,6 +225,8 @@ class _OTPPageState extends State<OTPPage> {
                                   const EdgeInsets.only(top: 5, bottom: 16),
                               backgroundColor: Colors
                                   .black, // Set the background color to black
+                              titlePadding: EdgeInsets.only(top: 12),
+
                               title: const Text(
                                 "인증코드 제한",
                                 style: TextStyle(

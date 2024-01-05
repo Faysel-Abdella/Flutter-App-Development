@@ -55,6 +55,111 @@ class _ProfileFAQState extends State<ProfileFAQ> {
     });
   }
 
+  void showFaQBottomSheet(
+    BuildContext context,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      constraints:
+          BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.95),
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return Container(
+              padding: EdgeInsets.only(top: 40),
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(25),
+                      topLeft: Radius.circular(25)),
+                  color: Color(0xFF363638)),
+              child: Column(
+                children: [
+                  // One item
+                  Expanded(
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "자주 묻는 질문",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.close),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 6,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Flexible(
+                                child: Text(
+                                  "위갭 (WeGab)은 어떻게 이용하나요?",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.white,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "업데이트 : 2023년 11월 10일 15:32",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500,
+                                    color: Color(0xFFAEAEB2)),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 14,
+                          ),
+                          Divider(
+                            thickness: 1,
+                            color: Color(0xFF444446),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                  // End of one item
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +177,7 @@ class _ProfileFAQState extends State<ProfileFAQ> {
                 children: [
                   Expanded(
                     child: Container(
-                      height: 31,
+                      height: 36,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         color: Color(0xFF444446),
@@ -102,12 +207,12 @@ class _ProfileFAQState extends State<ProfileFAQ> {
                                     BorderSide(color: Color(0xFF545456)),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(24),
+                                borderRadius: BorderRadius.circular(16),
                                 borderSide:
                                     BorderSide(color: Color(0xFF7545456)),
                               ),
                               prefixIcon: Padding(
-                                padding: const EdgeInsets.all(2.0),
+                                padding: const EdgeInsets.all(8.0),
                                 child: SvgPicture.asset(
                                   "images/search_icon.svg",
                                   color: Colors.white,
@@ -115,16 +220,14 @@ class _ProfileFAQState extends State<ProfileFAQ> {
                               ),
                               contentPadding: const EdgeInsets.symmetric(
                                 vertical: 2,
-                                horizontal: 16,
+                                // horizontal: 16,
                               ),
                             ),
                             style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.white),
-                            onChanged: (value) {
-                              _handleFocusChange();
-                            },
+                            onChanged: (value) {},
                           ),
                         ),
                       ),
@@ -159,37 +262,43 @@ class _ProfileFAQState extends State<ProfileFAQ> {
                 shrinkWrap: true,
                 itemCount: faqs.length,
                 itemBuilder: (context, index) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-                    decoration: BoxDecoration(
-                        border: Border(
-                            bottom: BorderSide(color: Color(0xFF7C7C80)))),
-                    child: Row(
-                      children: [
-                        Text(
-                          faqs[index].label,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12,
-                        ),
-                        Flexible(
-                          child: Text(
-                            faqs[index].text,
+                  return GestureDetector(
+                    onTap: () {
+                      showFaQBottomSheet(context);
+                    },
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Color(0xFF7C7C80)))),
+                      child: Row(
+                        children: [
+                          Text(
+                            faqs[index].label,
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
                           ),
-                        ),
-                      ],
+                          SizedBox(
+                            width: 12,
+                          ),
+                          Flexible(
+                            child: Text(
+                              faqs[index].text,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },

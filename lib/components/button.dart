@@ -39,7 +39,7 @@ class _CustomFreeButtonState extends State<CustomFreeButton> {
           ),
         ),
         onPressed: () {
-          widget.onTab!();
+          widget.onTab();
           // Handle button press
         },
         child: Text(

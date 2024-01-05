@@ -73,7 +73,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
 
   void _checkNameExist() {
     String searchingName = _nameController.text;
-    if (searchingName == "gap") {
+    if (searchingName.trim() == "gap") {
       // It is the condition where the inserted name is correct and there exist a user with this name
       setState(() {
         _isNameExist = true;

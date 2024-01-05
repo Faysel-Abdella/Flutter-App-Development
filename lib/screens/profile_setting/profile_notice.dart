@@ -22,7 +22,7 @@ class _ProfileNoticeState extends State<ProfileNotice> {
         return StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return Container(
-              padding: EdgeInsets.only(top: 50),
+              padding: EdgeInsets.only(top: 40),
               decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                       topRight: Radius.circular(25),
@@ -33,55 +33,70 @@ class _ProfileNoticeState extends State<ProfileNotice> {
                   // One item
                   Expanded(
                     child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Column(
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "공지",
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "공지",
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
+                                ),
+                                IconButton(
+                                  icon: Icon(Icons.close),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  color: Colors.white,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            padding: EdgeInsets.symmetric(horizontal: 16),
+                            child: Flexible(
+                              child: Text(
+                                "2024년 최고의 화제작이 NETFLIX 라운지에서 공개됩니다.",
                                 style: TextStyle(
-                                    fontSize: 14,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 8,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 20, right: 16),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Text(
+                                "업데이트 : 2023년 11월 10일 15:32",
+                                style: TextStyle(
+                                    fontSize: 12,
                                     fontWeight: FontWeight.w500,
-                                    color: Colors.white),
+                                    color: Color(0xFFAEAEB2)),
                               ),
-                              IconButton(
-                                icon: Icon(Icons.close),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                color: Colors.white,
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 8,
-                          ),
-                          Flexible(
-                            child: Text(
-                              "2024년 최고의 화제작이 NETFLIX 라운지에서 공개됩니다.",
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
                             ),
                           ),
                           SizedBox(
-                            height: 8,
+                            height: 16,
                           ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "업데이트 : 2023년 11월 10일 15:32",
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFFAEAEB2)),
-                            ),
+                          Divider(
+                            thickness: 1,
+                            color: Color(0xFF444446),
                           )
                         ],
                       ),
@@ -156,7 +171,7 @@ class _ProfileNoticeState extends State<ProfileNotice> {
                       "욕망이 괴물이 되는 세상. 그린홈을 떠나 새로운 터전에서 살아남기 위해 각자의 사투를 벌이는 현수와 그린홈의 생존자들, 그리고 또 다른 존재의 등장과 알 수 없는 미스터리한 현상들까지. 새로운 욕망과 사건, 사투를 그린 넷플릭스 시리즈",
                   date: "2023년 11월 10일",
                   isThereImage: true,
-                  imageURL: "images/notice_image_three.jpeg",
+                  imageURL: "images/notice_image_one.png",
                 )),
             GestureDetector(
                 onTap: () {

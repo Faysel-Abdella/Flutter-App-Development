@@ -14,7 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF363638),
+      backgroundColor: const Color(0xFF242426),
       body: SafeArea(
           child: Container(
         child: Padding(
@@ -54,10 +54,10 @@ class _LoginPageState extends State<LoginPage> {
                     imagePath: "images/talk_symbol.svg",
                     buttonText: "카카오로 시작하기",
                     textColor: Colors.black,
-                    height: 36,
+                    height: 35,
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 6,
                   ),
                   CustomIconedButton(
                     onPressed: () {
@@ -71,10 +71,10 @@ class _LoginPageState extends State<LoginPage> {
                     imagePath: "images/n_symbol.svg",
                     buttonText: "네이버로 시작하기",
                     textColor: const Color(0xFF242426),
-                    height: 36,
+                    height: 35,
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 6,
                   ),
                   CustomIconedButton(
                     onPressed: () {
@@ -88,10 +88,10 @@ class _LoginPageState extends State<LoginPage> {
                     imagePath: "images/apple_symbol.svg",
                     buttonText: "Apple로 시작하기",
                     textColor: Colors.white,
-                    height: 36,
+                    height: 35,
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 6,
                   ),
                   CustomIconedButton(
                     onPressed: () {
@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                     imagePath: "images/google_symbol.svg",
                     buttonText: "구글로 시작하기",
                     textColor: Colors.black,
-                    height: 36,
+                    height: 35,
                   ),
                   Container(
                     margin: EdgeInsets.only(top: 120),
@@ -118,14 +118,14 @@ class _LoginPageState extends State<LoginPage> {
                             text: const TextSpan(
                               text: '가입을 진행할 경우, ',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 12,
                                 color: Color(0xFFAEAEB2),
                               ),
                               children: [
                                 TextSpan(
                                   text: '이용약관',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     color: Colors.white,
                                     decoration: TextDecoration.underline,
                                   ),
@@ -133,14 +133,14 @@ class _LoginPageState extends State<LoginPage> {
                                 TextSpan(
                                   text: ' 및 \n',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     color: Color(0xFFAEAEB2),
                                   ),
                                 ),
                                 TextSpan(
                                   text: '개인정보 처리방침',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     color: Colors.white,
                                     decoration: TextDecoration.underline,
                                   ),
@@ -148,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                                 TextSpan(
                                   text: '에 동의하는 것으로 간주됩니다.',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     color: Color(0xFFAEAEB2),
                                   ),
                                 ),
