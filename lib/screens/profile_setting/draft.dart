@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/app_bar.dart';
 import 'package:flutter_app_gap/components/drafts.dart';
 import 'package:flutter_app_gap/components/no_draft.dart';
-import 'package:flutter_app_gap/components/one_draft.dart';
 
 class ProfileDraft extends StatefulWidget {
   const ProfileDraft({super.key});

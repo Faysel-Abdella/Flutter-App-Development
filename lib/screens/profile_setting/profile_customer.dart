@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app_gap/components/app_bar.dart';
 import 'package:flutter_app_gap/components/button.dart';
-import 'package:flutter_app_gap/components/show_popup.dart';
-import 'package:flutter_app_gap/screens/profile_setting/setting_home.dart';
 
 class ProfileCustomerHome extends StatefulWidget {
   const ProfileCustomerHome({super.key});

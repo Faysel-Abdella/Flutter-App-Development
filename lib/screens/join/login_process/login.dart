@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/iconed_button.dart';
 import 'package:flutter_app_gap/screens/join/login_process/cell_certified.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

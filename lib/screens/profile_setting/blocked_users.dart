@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app_gap/components/app_bar.dart';
-import 'package:flutter_app_gap/components/blocked_user.dart';
 import 'package:flutter_app_gap/components/blocked_users.dart';
 
 class BlockedUsers extends StatefulWidget {

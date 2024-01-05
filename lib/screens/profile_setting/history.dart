@@ -3,7 +3,6 @@ import 'package:flutter_app_gap/components/app_bar.dart';
 import 'package:flutter_app_gap/components/drop_and_search.dart';
 import 'package:flutter_app_gap/components/feed.dart';
 import 'package:flutter_app_gap/components/no_history.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileHistory extends StatefulWidget {
   const ProfileHistory({super.key});

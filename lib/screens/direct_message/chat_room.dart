@@ -7,8 +7,6 @@ import 'package:flutter_app_gap/screens/direct_message/friends.dart';
 import 'package:radio_group_v2/radio_group_v2.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:flutter_link_previewer/flutter_link_previewer.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' show PreviewData;
 import 'package:flutter_app_gap/components/button.dart';
 
 class ChatRoom extends StatefulWidget {
@@ -787,13 +785,13 @@ class _ChatRoomState extends State<ChatRoom> {
                                         color: Color(0xFFAEAEB2)),
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide:
-                                          const BorderSide(color: Color(0xFF7C7C80)),
+                                      borderSide: const BorderSide(
+                                          color: Color(0xFF7C7C80)),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
-                                      borderSide:
-                                          const BorderSide(color: Color(0xFF7C7C80)),
+                                      borderSide: const BorderSide(
+                                          color: Color(0xFF7C7C80)),
                                     ),
                                     contentPadding: const EdgeInsets.symmetric(
                                       vertical: 6,
@@ -860,13 +858,12 @@ class _ChatRoomState extends State<ChatRoom> {
                                     ? Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => const FriendsList(),
+                                          builder: (context) =>
+                                              const FriendsList(),
                                         ))
                                     : null;
 
-
-                                    FocusManager.instance.primaryFocus
-                                                ?.unfocus();
+                                FocusManager.instance.primaryFocus?.unfocus();
 
                                 CustomPopUp.showPopupText(
                                     context,
@@ -1171,7 +1168,8 @@ class _ChatRoomState extends State<ChatRoom> {
                           // ######## The actual chat section  #########
                           SingleChildScrollView(
                             child: ListView.builder(
-                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
                               shrinkWrap: true,
                               itemCount: conversations.length,
                               physics: const NeverScrollableScrollPhysics(),
@@ -1200,8 +1198,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                       Center(
                                         child: Container(
                                           height: 32,
-                                          margin:
-                                              const EdgeInsets.symmetric(vertical: 8),
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 8),
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12),
@@ -1257,9 +1255,11 @@ class _ChatRoomState extends State<ChatRoom> {
                                                     "failed")
                                                   Container(
                                                     // height: 16,
-                                                    padding: const EdgeInsets.all(4),
-                                                    margin: const EdgeInsets.only(
-                                                        right: 8),
+                                                    padding:
+                                                        const EdgeInsets.all(4),
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                            right: 8),
 
                                                     decoration: BoxDecoration(
                                                         color: Colors.white,
@@ -1278,9 +1278,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                                               .center,
                                                       children: [
                                                         Padding(
-                                                          padding:
-                                                              EdgeInsets
-                                                                  .symmetric(
+                                                          padding: EdgeInsets
+                                                              .symmetric(
                                                                   horizontal:
                                                                       4),
                                                           child: Text(
@@ -1330,7 +1329,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                                   child: conversation.isLink
                                                       ? Container(
                                                           padding:
-                                                              const EdgeInsets.only(
+                                                              const EdgeInsets
+                                                                  .only(
                                                                   right: 0),
                                                           child: Column(
                                                             children: [
@@ -1356,7 +1356,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                       width: 8,
                                                                     ),
                                                                     Container(
-                                                                      padding: const EdgeInsets.symmetric(
+                                                                      padding: const EdgeInsets
+                                                                          .symmetric(
                                                                           horizontal:
                                                                               12,
                                                                           vertical:
@@ -1504,7 +1505,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                             Radius.circular(8),
                                                                       ),
                                                                     ),
-                                                                    padding: const EdgeInsets.only(
+                                                                    padding: const EdgeInsets
+                                                                        .only(
                                                                         top: 9,
                                                                         right:
                                                                             8,
@@ -1557,14 +1559,13 @@ class _ChatRoomState extends State<ChatRoom> {
                                                       : Container(
                                                           padding: conversation
                                                                   .isImage
-                                                              ? const EdgeInsets.all(
-                                                                  0)
+                                                              ? const EdgeInsets
+                                                                  .all(0)
                                                               : const EdgeInsets
                                                                   .symmetric(
-                                                                      horizontal:
-                                                                          12,
-                                                                      vertical:
-                                                                          6),
+                                                                  horizontal:
+                                                                      12,
+                                                                  vertical: 6),
                                                           decoration: BoxDecoration(
                                                               borderRadius:
                                                                   BorderRadius
@@ -1952,13 +1953,14 @@ class _ChatRoomState extends State<ChatRoom> {
                                                       children: [
                                                         Text(
                                                           users[0].name,
-                                                          style: const TextStyle(
-                                                              fontSize: 10,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              color:
-                                                                  Colors.white),
+                                                          style:
+                                                              const TextStyle(
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color: Colors
+                                                                      .white),
                                                         ),
                                                         const SizedBox(
                                                           height: 6,
@@ -1975,7 +1977,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                       .isImage
                                                                   ? const EdgeInsets
                                                                       .all(0)
-                                                                  : const EdgeInsets.symmetric(
+                                                                  : const EdgeInsets
+                                                                      .symmetric(
                                                                       horizontal:
                                                                           12,
                                                                       vertical:
@@ -2337,11 +2340,13 @@ class _ChatRoomState extends State<ChatRoom> {
                                 const TextStyle(color: Color(0xFFAEAEB2)),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(24),
-                              borderSide: const BorderSide(color: Color(0xFF545456)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFF545456)),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(24),
-                              borderSide: const BorderSide(color: Color(0xFF545456)),
+                              borderSide:
+                                  const BorderSide(color: Color(0xFF545456)),
                             ),
                             suffixIcon: GestureDetector(
                               onTap: () {
