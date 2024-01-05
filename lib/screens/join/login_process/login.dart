@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CellCertifiedPage(),
+                            builder: (context) => const CellCertifiedPage(),
                           ));
                     },
                     color: const Color(0xFFFAE100),
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CellCertifiedPage(),
+                            builder: (context) => const CellCertifiedPage(),
                           ));
                     },
                     color: const Color(0xFF5ACB15),
@@ -81,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CellCertifiedPage(),
+                            builder: (context) => const CellCertifiedPage(),
                           ));
                     },
                     color: const Color(0xFF363638),
@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => CellCertifiedPage(),
+                            builder: (context) => const CellCertifiedPage(),
                           ));
                     },
                     color: Colors.white,
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                     height: 35,
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 120),
+                    margin: const EdgeInsets.only(top: 120),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,

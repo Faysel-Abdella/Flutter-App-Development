@@ -98,7 +98,7 @@ class _NameRegisterPageState extends State<NameRegisterPage> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           height: text3 != null ? 300 : 170,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -162,8 +162,8 @@ class _NameRegisterPageState extends State<NameRegisterPage> {
                   : const SizedBox.shrink(),
               CustomFreeButton(
                   height: 36,
-                  textColor: Color(0xFF242426),
-                  color: Color(0xFFDBFF00),
+                  textColor: const Color(0xFF242426),
+                  color: const Color(0xFFDBFF00),
                   content: btnTxt)
             ],
           ),
@@ -215,7 +215,7 @@ class _NameRegisterPageState extends State<NameRegisterPage> {
                   Image.asset("images/first_step.png"),
                   Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(top: 18, bottom: 54),
+                    margin: const EdgeInsets.only(top: 18, bottom: 54),
                     child: const Text(
                       "WeGab (위갭) 에서 사용할 사진과 대화명을 넣어서\n프로필을 꾸며주세요.",
                       style: TextStyle(
@@ -354,7 +354,7 @@ class _NameRegisterPageState extends State<NameRegisterPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => BrandSelect(),
+                            builder: (context) => const BrandSelect(),
                           ));
                       // Handle button press
                     },

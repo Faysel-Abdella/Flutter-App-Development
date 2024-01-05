@@ -21,8 +21,8 @@ class _ProfileDraftState extends State<ProfileDraft> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFF363638),
-        appBar: CustomAppBar(text: "작성중인 갭"),
-        body: hasDraft ? Drafts() : NoDraft());
+        backgroundColor: const Color(0xFF363638),
+        appBar: const CustomAppBar(text: "작성중인 갭"),
+        body: hasDraft ? const Drafts() : const NoDraft());
   }
 }

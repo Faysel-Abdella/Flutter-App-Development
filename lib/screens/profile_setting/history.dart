@@ -24,11 +24,11 @@ class _ProfileHistoryState extends State<ProfileHistory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color(0xFF363638),
-        appBar: CustomAppBar(text: "History"),
+        backgroundColor: const Color(0xFF363638),
+        appBar: const CustomAppBar(text: "History"),
         body: !hasHistory
-            ? NoHistory()
-            : Column(
+            ? const NoHistory()
+            : const Column(
                 children: [
                   DropAndSearchBar(),
                   Expanded(

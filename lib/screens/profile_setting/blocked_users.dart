@@ -22,21 +22,21 @@ class _BlockedUsersState extends State<BlockedUsers> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF363638),
-      appBar: CustomAppBar(text: "차단 사용자 관리"),
+      backgroundColor: const Color(0xFF363638),
+      appBar: const CustomAppBar(text: "차단 사용자 관리"),
       body: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 27.5,
           ),
-          Center(
+          const Center(
             child: Text("사용자 차단 시, 서로의 갭,댓글,다이렉트 메시지 받기가 불가능합니다.",
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: Color(0xFFFF0089))),
           ),
-          Center(
+          const Center(
             child: Text("사용자에게는 차단했다는 정보를 알리지 않습니다.",
                 style: TextStyle(
                     fontSize: 12,
@@ -44,17 +44,17 @@ class _BlockedUsersState extends State<BlockedUsers> {
                     color: Color(0xFFFF0089))),
           ),
           isBlockedUserExist
-              ? SizedBox(
+              ? const SizedBox(
                   height: 27,
                 )
-              : SizedBox(
+              : const SizedBox(
                   height: 0,
                 ),
           isBlockedUserExist
-              ? BlockUsersList()
+              ? const BlockUsersList()
               : Container(
-                  padding: EdgeInsets.only(top: 180),
-                  child: Center(
+                  padding: const EdgeInsets.only(top: 180),
+                  child: const Center(
                     child: Text(
                       "차단하고 있는 사용자가 없습니다.",
                       style: TextStyle(

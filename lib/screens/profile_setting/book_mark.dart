@@ -21,11 +21,11 @@ class UserBookMarksState extends State<UserBookMarks> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF363638),
-      appBar: CustomAppBar(text: "즐겨찾기 라운지"),
+      backgroundColor: const Color(0xFF363638),
+      appBar: const CustomAppBar(text: "즐겨찾기 라운지"),
       body: isBookMarkExist
-          ? BookMarkets()
-          : Column(
+          ? const BookMarkets()
+          : const Column(
               children: [
                 SizedBox(
                   height: 180,

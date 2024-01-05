@@ -70,7 +70,7 @@ class _OTPPageState extends State<OTPPage> {
                 ),
                 const SizedBox(height: 23),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -141,8 +141,8 @@ class _OTPPageState extends State<OTPPage> {
 
                 OtpTextField(
                   numberOfFields: 5,
-                  borderColor: Color(0xFF7C7C80),
-                  enabledBorderColor: Color(0xFF7C7C80),
+                  borderColor: const Color(0xFF7C7C80),
+                  enabledBorderColor: const Color(0xFF7C7C80),
                   focusedBorderColor: Colors.blueAccent,
                   autoFocus: true,
 
@@ -169,7 +169,7 @@ class _OTPPageState extends State<OTPPage> {
                                   const EdgeInsets.only(top: 5, bottom: 16),
                               backgroundColor: Colors
                                   .black, // Set the background color to black
-                              titlePadding: EdgeInsets.only(top: 6),
+                              titlePadding: const EdgeInsets.only(top: 6),
                               title: const Text(
                                 "인증코드를\n다시 확인해 주세요.",
                                 style: TextStyle(
@@ -225,7 +225,7 @@ class _OTPPageState extends State<OTPPage> {
                                   const EdgeInsets.only(top: 5, bottom: 16),
                               backgroundColor: Colors
                                   .black, // Set the background color to black
-                              titlePadding: EdgeInsets.only(top: 12),
+                              titlePadding: const EdgeInsets.only(top: 12),
 
                               title: const Text(
                                 "인증코드 제한",
@@ -275,7 +275,7 @@ class _OTPPageState extends State<OTPPage> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => NameRegisterPage(),
+                            builder: (context) => const NameRegisterPage(),
                           ));
                     }
                   }, // end onSubmit
@@ -286,8 +286,8 @@ class _OTPPageState extends State<OTPPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Color(0xFF363638)),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          const Color(0xFF363638)),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12.0),

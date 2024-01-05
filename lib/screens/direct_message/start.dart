@@ -192,7 +192,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                         padding: const EdgeInsets.all(8),
                                         margin: const EdgeInsets.only(left: 8),
                                         decoration: BoxDecoration(
-                                          color: Color(0xFF0099FF),
+                                          color: const Color(0xFF0099FF),
                                           borderRadius:
                                               BorderRadius.circular(20),
                                         ),
@@ -301,7 +301,8 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                                 borderRadius:
                                                     BorderRadius.circular(20.0),
                                                 border: Border.all(
-                                                  color: Color(0xFFDBFF00),
+                                                  color:
+                                                      const Color(0xFFDBFF00),
                                                   width: 2.0,
                                                 ),
                                               ),
@@ -415,7 +416,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                                 ? Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ChatRoom(),
+                                      builder: (context) => const ChatRoom(),
                                     ))
                                 : null;
                             // Handle button press
@@ -496,7 +497,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
         ),
         leading: Container(
           margin: const EdgeInsets.only(left: 8),
-          padding: EdgeInsets.only(left: 18),
+          padding: const EdgeInsets.only(left: 18),
           child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
@@ -506,7 +507,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 16),
-            padding: EdgeInsets.only(right: 16),
+            padding: const EdgeInsets.only(right: 16),
             child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).pop();
@@ -519,7 +520,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
         child: Align(
           alignment: Alignment.center,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -548,7 +549,7 @@ class _MessagePageEntranceState extends State<MessagePageEntrance> {
                         _isProfileSelected = false;
                       });
                     },
-                    color: Color(0xFFDBFF00),
+                    color: const Color(0xFFDBFF00),
                     imagePath: "images/send_message.svg",
                     buttonText: "메시지 보내기",
                     textColor: Colors.black,

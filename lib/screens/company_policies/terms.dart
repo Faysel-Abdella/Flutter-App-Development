@@ -6,7 +6,7 @@ class Terms extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Color(0xFF363638),
       appBar: CustomAppBar(text: "이용약관"),
     );

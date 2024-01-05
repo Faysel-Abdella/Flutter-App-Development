@@ -17,12 +17,12 @@ class _AllowAccessPageState extends State<AllowAccessPage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => LoginPage(),
+            builder: (context) => const LoginPage(),
           ));
     }
 
     return Scaffold(
-      backgroundColor: Color(0xFF242426),
+      backgroundColor: const Color(0xFF242426),
       body: SafeArea(
         child: Container(
           child: Padding(
@@ -325,10 +325,10 @@ class _AllowAccessPageState extends State<AllowAccessPage> {
 
                 CustomFreeButton(
                     onTab: onTabFun,
-                    margin: EdgeInsets.only(top: 32),
+                    margin: const EdgeInsets.only(top: 32),
                     height: 36.0,
                     textColor: Colors.black,
-                    color: Color(0xFFDBFF00),
+                    color: const Color(0xFFDBFF00),
                     content: "다음"),
               ],
             ),

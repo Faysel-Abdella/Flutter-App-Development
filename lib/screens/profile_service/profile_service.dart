@@ -22,41 +22,41 @@ class _ProfileServiceState extends State<ProfileService> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF363638),
-      appBar: CustomAppBar(text: "위갭 탈퇴"),
+      backgroundColor: const Color(0xFF363638),
+      appBar: const CustomAppBar(text: "위갭 탈퇴"),
       body: Container(
-        padding: EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               "😢 위갭 탈퇴",
               style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: Colors.white),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
-            Divider(
+            const Divider(
               thickness: 1,
               color: Colors.black,
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
-            Text(
+            const Text(
               "탈퇴하기 전에 아래 내용을 꼭 확인하세요.",
               style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: Colors.white),
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
-            Row(
+            const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -77,10 +77,10 @@ class _ProfileServiceState extends State<ProfileService> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
-            Row(
+            const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -101,10 +101,10 @@ class _ProfileServiceState extends State<ProfileService> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
-            Row(
+            const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -125,10 +125,10 @@ class _ProfileServiceState extends State<ProfileService> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
-            Row(
+            const Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -149,14 +149,14 @@ class _ProfileServiceState extends State<ProfileService> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
-            Divider(
+            const Divider(
               thickness: 1,
               color: Colors.black,
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             Row(
@@ -171,10 +171,10 @@ class _ProfileServiceState extends State<ProfileService> {
                     child: isChecked
                         ? SvgPicture.asset("images/checked.svg")
                         : SvgPicture.asset("images/un_checked.svg")),
-                SizedBox(
+                const SizedBox(
                   width: 8,
                 ),
-                Text(
+                const Text(
                   "위의 내용을 확인하였습니다.",
                   style: TextStyle(
                       fontSize: 14,
@@ -183,7 +183,7 @@ class _ProfileServiceState extends State<ProfileService> {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 16,
             ),
             GestureDetector(
@@ -192,7 +192,7 @@ class _ProfileServiceState extends State<ProfileService> {
                     ? Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ServiceCheck(),
+                          builder: (context) => const ServiceCheck(),
                         ))
                     : null;
               },
@@ -201,8 +201,10 @@ class _ProfileServiceState extends State<ProfileService> {
                 height: 36,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: isChecked ? Color(0xFFDBFF00) : Color(0xFFAEAEB2)),
-                child: Center(
+                    color: isChecked
+                        ? const Color(0xFFDBFF00)
+                        : const Color(0xFFAEAEB2)),
+                child: const Center(
                   child: Text(
                     "탈퇴 하기",
                     style: TextStyle(

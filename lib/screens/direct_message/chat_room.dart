@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_gap/components/show_popup.dart';
+import 'package:flutter_app_gap/screens/direct_message/friends.dart';
 import 'package:radio_group_v2/radio_group_v2.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -144,14 +146,14 @@ class _ChatRoomState extends State<ChatRoom> {
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
         _scrollController.animateTo(_scrollController.position.maxScrollExtent,
-            duration: Duration(milliseconds: 500), curve: Curves.ease);
+            duration: const Duration(milliseconds: 500), curve: Curves.ease);
       }
     });
 
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
         _scrollController.animateTo(180,
-            duration: Duration(milliseconds: 50), curve: Curves.ease);
+            duration: const Duration(milliseconds: 50), curve: Curves.ease);
       }
     });
 
@@ -213,7 +215,7 @@ class _ChatRoomState extends State<ChatRoom> {
           false,
           "",
           "",
-          "image/image_preview.png",
+          "images/image_preview.png",
           "우리의 최종목적은 함께 재밌게 우리의 최종목적은 함께 재밌게 노는 캠핑이란 말이닷! 👏",
           "고아웃 슈퍼하이킹 1회 후기")
     ];
@@ -263,7 +265,7 @@ class _ChatRoomState extends State<ChatRoom> {
       context: context,
       barrierColor: Colors.transparent,
       builder: (BuildContext context) {
-        Timer(Duration(seconds: 2), () {
+        Timer(const Duration(seconds: 2), () {
           Navigator.of(context).pop();
         });
 
@@ -274,18 +276,18 @@ class _ChatRoomState extends State<ChatRoom> {
           child: Container(
             height: 72,
             color: Colors.transparent,
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             margin: EdgeInsets.only(bottom: marginBottom),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
                         Image.asset(
@@ -293,12 +295,12 @@ class _ChatRoomState extends State<ChatRoom> {
                           height: 40,
                           width: 40,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
                         Text(
                           text,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                               color: Colors.black),
@@ -329,7 +331,7 @@ class _ChatRoomState extends State<ChatRoom> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           height: 248,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -443,8 +445,8 @@ class _ChatRoomState extends State<ChatRoom> {
               const SizedBox.shrink(),
               CustomFreeButton(
                   height: 36,
-                  textColor: Color(0xFF242426),
-                  color: Color(0xFFDBFF00),
+                  textColor: const Color(0xFF242426),
+                  color: const Color(0xFFDBFF00),
                   content: btnTxt)
             ],
           ),
@@ -465,7 +467,7 @@ class _ChatRoomState extends State<ChatRoom> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           height: 170,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
@@ -522,8 +524,8 @@ class _ChatRoomState extends State<ChatRoom> {
               const SizedBox.shrink(),
               CustomFreeButton(
                   height: 36,
-                  textColor: Color(0xFF242426),
-                  color: Color(0xFFDBFF00),
+                  textColor: const Color(0xFF242426),
+                  color: const Color(0xFFDBFF00),
                   content: btnTxt)
             ],
           ),
@@ -560,7 +562,7 @@ class _ChatRoomState extends State<ChatRoom> {
                     child: Container(
                       child: Column(
                         children: [
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
@@ -582,17 +584,17 @@ class _ChatRoomState extends State<ChatRoom> {
                               )
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 16,
                           ),
-                          Divider(
+                          const Divider(
                             color: Color(0xFFD0CBC2),
                             thickness: 1,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 24,
                           ),
-                          Text(
+                          const Text(
                             "‘말랑한 우동’ 사용자를 신고하는\n이유를 알려주세요.",
                             style: TextStyle(
                                 color: Colors.white,
@@ -600,13 +602,13 @@ class _ChatRoomState extends State<ChatRoom> {
                                 fontWeight: FontWeight.w700),
                             textAlign: TextAlign.center,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 40,
                           ),
                           SingleChildScrollView(
                             child: ListView.builder(
                               shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount: options.length,
                               itemExtent: 40,
                               itemBuilder: (context, index) {
@@ -638,7 +640,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                   ),
                                   title: Text(
                                     options[index],
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
                                       color: Colors.white,
@@ -657,17 +659,17 @@ class _ChatRoomState extends State<ChatRoom> {
                           if (showForm)
                             Container(
                               child: Column(children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 24,
                                 ),
-                                Divider(
+                                const Divider(
                                   color: Color(0xFF444446),
                                   thickness: 1,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 8,
                                 ),
-                                Align(
+                                const Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     "신고 사유 (필수)",
@@ -678,7 +680,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                     textAlign: TextAlign.left,
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 11,
                                 ),
                                 InkWell(
@@ -711,13 +713,13 @@ class _ChatRoomState extends State<ChatRoom> {
                                         focusedBorder: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(16),
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                               color: Color(0xFF7C7C80)),
                                         ),
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(16),
-                                          borderSide: BorderSide(
+                                          borderSide: const BorderSide(
                                               color: Color(0xFF7C7C80)),
                                         ),
                                         contentPadding:
@@ -732,7 +734,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                           bool? isFocused}) {
                                         return Text(
                                           '$currentLength / $maxLength',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 12,
                                               color: Colors.white),
                                         );
@@ -753,10 +755,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 16,
                                 ),
-                                Align(
+                                const Align(
                                   alignment: Alignment.centerLeft,
                                   child: Text(
                                     "사진 첨부 (최대 4장)",
@@ -766,19 +768,19 @@ class _ChatRoomState extends State<ChatRoom> {
                                         color: Colors.white),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 11,
                                 ),
                                 Align(
                                     alignment: Alignment.centerLeft,
                                     child: SvgPicture.asset(
                                         "images/import_image.svg")),
-                                SizedBox(
+                                const SizedBox(
                                   height: 24,
                                 ),
                                 TextField(
                                   onTap: () {},
-                                  cursorColor: Color(0xFF0099FF),
+                                  cursorColor: const Color(0xFF0099FF),
                                   decoration: InputDecoration(
                                     hintText: '이메일 입력',
                                     hintStyle: const TextStyle(
@@ -786,12 +788,12 @@ class _ChatRoomState extends State<ChatRoom> {
                                     focusedBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide:
-                                          BorderSide(color: Color(0xFF7C7C80)),
+                                          const BorderSide(color: Color(0xFF7C7C80)),
                                     ),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(12),
                                       borderSide:
-                                          BorderSide(color: Color(0xFF7C7C80)),
+                                          const BorderSide(color: Color(0xFF7C7C80)),
                                     ),
                                     contentPadding: const EdgeInsets.symmetric(
                                       vertical: 6,
@@ -821,13 +823,13 @@ class _ChatRoomState extends State<ChatRoom> {
                                 ),
                               ]),
                             ),
-                          SizedBox(
+                          const SizedBox(
                             height: 4,
                           ),
                           !_isEmailValid && selectedIndex == 5
                               ? Container(
                                   height: 12,
-                                  child: Align(
+                                  child: const Align(
                                     alignment: Alignment.centerRight,
                                     child: Text(
                                       "올바른 이메일 형식이 아닙니다.",
@@ -838,17 +840,40 @@ class _ChatRoomState extends State<ChatRoom> {
                                     ),
                                   ),
                                 )
-                              : SizedBox(
+                              : const SizedBox(
                                   height: 12,
                                 ),
 
-                          SizedBox(
+                          const SizedBox(
                             height: 28,
                           ),
 
                           // The report button
                           ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
+                                selectedIndex != -1 && selectedIndex != 5 ||
+                                        selectedIndex == 5 &&
+                                            !_isReasonEmpty &&
+                                            !_isEmailEmpty &&
+                                            _isEmailValid
+                                    ? Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const FriendsList(),
+                                        ))
+                                    : null;
+
+
+                                    FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+
+                                CustomPopUp.showPopupText(
+                                    context,
+                                    "신고가 완료되었습니다.\n해당 사용자는 확인 후 조치하겠습니다.",
+                                    80,
+                                    16);
+                              },
                               style: ButtonStyle(
                                 backgroundColor:
                                     selectedIndex != -1 && selectedIndex != 5 ||
@@ -913,7 +938,7 @@ class _ChatRoomState extends State<ChatRoom> {
         toolbarHeight: 76,
         centerTitle: true,
         title: Container(
-          margin: EdgeInsets.only(left: 5),
+          margin: const EdgeInsets.only(left: 5),
           height: 51,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -925,7 +950,7 @@ class _ChatRoomState extends State<ChatRoom> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20.0),
                     border: Border.all(
-                      color: Color(0xFFDBFF00),
+                      color: const Color(0xFFDBFF00),
                       width: 2.0,
                     ),
                   ),
@@ -999,7 +1024,7 @@ class _ChatRoomState extends State<ChatRoom> {
         ),
         leading: Container(
           margin: const EdgeInsets.only(left: 6),
-          padding: EdgeInsets.only(left: 16),
+          padding: const EdgeInsets.only(left: 16),
           child: GestureDetector(
               onTap: () {
                 Navigator.of(context).pop();
@@ -1023,7 +1048,7 @@ class _ChatRoomState extends State<ChatRoom> {
                       "닫기");
                 },
                 child: Container(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                       right: 26,
                     ),
                     child: Image.asset("images/three_dots.png"))),
@@ -1038,7 +1063,7 @@ class _ChatRoomState extends State<ChatRoom> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                      margin: EdgeInsets.only(top: 92),
+                      margin: const EdgeInsets.only(top: 92),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -1146,10 +1171,10 @@ class _ChatRoomState extends State<ChatRoom> {
                           // ######## The actual chat section  #########
                           SingleChildScrollView(
                             child: ListView.builder(
-                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
                               shrinkWrap: true,
                               itemCount: conversations.length,
-                              physics: NeverScrollableScrollPhysics(),
+                              physics: const NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) {
                                 final conversation = conversations[index];
                                 final DateTime currentDateTime =
@@ -1176,7 +1201,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                         child: Container(
                                           height: 32,
                                           margin:
-                                              EdgeInsets.symmetric(vertical: 8),
+                                              const EdgeInsets.symmetric(vertical: 8),
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(12),
@@ -1194,7 +1219,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                         horizontal: 35),
                                                 child: Text(
                                                   formatDate(conversation.date),
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 12,
                                                       fontWeight:
                                                           FontWeight.w300,
@@ -1232,8 +1257,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                                     "failed")
                                                   Container(
                                                     // height: 16,
-                                                    padding: EdgeInsets.all(4),
-                                                    margin: EdgeInsets.only(
+                                                    padding: const EdgeInsets.all(4),
+                                                    margin: const EdgeInsets.only(
                                                         right: 8),
 
                                                     decoration: BoxDecoration(
@@ -1242,9 +1267,9 @@ class _ChatRoomState extends State<ChatRoom> {
                                                             BorderRadius
                                                                 .circular(8),
                                                         border: Border.all(
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xFFAEAEB2))),
-                                                    child: Column(
+                                                    child: const Column(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
                                                               .center,
@@ -1254,7 +1279,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                       children: [
                                                         Padding(
                                                           padding:
-                                                              const EdgeInsets
+                                                              EdgeInsets
                                                                   .symmetric(
                                                                   horizontal:
                                                                       4),
@@ -1272,148 +1297,258 @@ class _ChatRoomState extends State<ChatRoom> {
                                                       ],
                                                     ),
                                                   ),
-                                                Text(
-                                                  conversation.hour,
-                                                  style: TextStyle(
-                                                      fontSize: 10,
-                                                      fontWeight:
-                                                          FontWeight.w300,
-                                                      color: Colors.white),
-                                                ),
-                                                SizedBox(
+                                                conversation.isLink
+                                                    ? const SizedBox(
+                                                        height: 0,
+                                                      )
+                                                    : Text(
+                                                        conversation.hour,
+                                                        style: const TextStyle(
+                                                            fontSize: 10,
+                                                            fontWeight:
+                                                                FontWeight.w300,
+                                                            color:
+                                                                Colors.white),
+                                                      ),
+                                                const SizedBox(
                                                   width: 8,
                                                 ),
                                                 ConstrainedBox(
                                                   constraints: BoxConstraints(
-                                                      maxWidth:
-                                                          MediaQuery.of(context)
+                                                      maxWidth: conversation
+                                                              .isLink
+                                                          ? MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width /
+                                                              0
+                                                          : MediaQuery.of(
+                                                                      context)
                                                                   .size
                                                                   .width /
                                                               1.6),
                                                   child: conversation.isLink
                                                       ? Container(
+                                                          padding:
+                                                              const EdgeInsets.only(
+                                                                  right: 0),
                                                           child: Column(
                                                             children: [
                                                               Container(
-                                                                padding: EdgeInsets
-                                                                    .symmetric(
-                                                                        horizontal:
-                                                                            12,
-                                                                        vertical:
-                                                                            6),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              12),
-                                                                  color: Colors
-                                                                      .yellow,
-                                                                ),
-                                                                child: InkWell(
-                                                                  child: Text(
-                                                                    conversation
-                                                                        .message,
-                                                                    style:
-                                                                        TextStyle(
-                                                                      fontSize:
-                                                                          14,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w500,
-                                                                      color: Colors
-                                                                          .black,
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .end,
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .end,
+                                                                  children: [
+                                                                    Text(
+                                                                        conversation
+                                                                            .hour,
+                                                                        style: const TextStyle(
+                                                                            fontSize:
+                                                                                10,
+                                                                            fontWeight:
+                                                                                FontWeight.w300,
+                                                                            color: Colors.white)),
+                                                                    const SizedBox(
+                                                                      width: 8,
                                                                     ),
-                                                                  ),
-                                                                  onTap: () {
-                                                                    final RenderBox
-                                                                        box =
-                                                                        context.findRenderObject()
-                                                                            as RenderBox;
-                                                                    final Offset
-                                                                        position =
-                                                                        box.localToGlobal(
-                                                                            Offset.zero);
-                                                                    showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      barrierColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      builder:
-                                                                          (BuildContext
-                                                                              context) {
-                                                                        return Container(
-                                                                          padding:
-                                                                              EdgeInsets.zero,
-                                                                          child:
-                                                                              Stack(
-                                                                            children: [
-                                                                              Positioned(
-                                                                                top: position.dy, // Set the top position based on the tapped widget's position
-                                                                                right: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
-                                                                                child: Container(
-                                                                                  decoration: BoxDecoration(
-                                                                                    borderRadius: BorderRadius.circular(12),
-                                                                                    color: Colors.black,
-                                                                                  ),
-                                                                                  child: Column(
-                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                    children: [
-                                                                                      TextButton(
-                                                                                        onPressed: () {
-                                                                                          // perform copy operation
-                                                                                          Navigator.pop(context); // Close the dialog
-                                                                                        },
-                                                                                        child: Row(
-                                                                                          children: [
-                                                                                            SvgPicture.asset("images/copy.svg"),
-                                                                                            SizedBox(
-                                                                                              width: 8,
-                                                                                            ),
-                                                                                            Text(
-                                                                                              "복사",
-                                                                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
-                                                                                            )
-                                                                                          ],
-                                                                                        ),
-                                                                                      ),
-                                                                                      SvgPicture.asset("images/pop_up_divider.svg"),
-                                                                                      TextButton(
-                                                                                        onPressed: () {
-                                                                                          // Perform delete operation
-                                                                                          Navigator.pop(context); // Close the dialog
-                                                                                        },
-                                                                                        child: Row(
-                                                                                          children: [
-                                                                                            SvgPicture.asset("images/delete.svg"),
-                                                                                            SizedBox(
-                                                                                              width: 8,
-                                                                                            ),
-                                                                                            Text(
-                                                                                              "삭제",
-                                                                                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
-                                                                                            )
-                                                                                          ],
-                                                                                        ),
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
-                                                                                ),
-                                                                              ),
-                                                                            ],
+                                                                    Container(
+                                                                      padding: const EdgeInsets.symmetric(
+                                                                          horizontal:
+                                                                              12,
+                                                                          vertical:
+                                                                              6),
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(12),
+                                                                        color: Colors
+                                                                            .yellow,
+                                                                      ),
+                                                                      child:
+                                                                          InkWell(
+                                                                        child:
+                                                                            Text(
+                                                                          conversation
+                                                                              .message,
+                                                                          style:
+                                                                              const TextStyle(
+                                                                            fontSize:
+                                                                                14,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            color:
+                                                                                Colors.black,
                                                                           ),
-                                                                        );
-                                                                      },
-                                                                    );
-                                                                  },
+                                                                        ),
+                                                                        onTap:
+                                                                            () {
+                                                                          final RenderBox
+                                                                              box =
+                                                                              context.findRenderObject() as RenderBox;
+                                                                          final Offset
+                                                                              position =
+                                                                              box.localToGlobal(Offset.zero);
+                                                                          showDialog(
+                                                                            context:
+                                                                                context,
+                                                                            barrierColor:
+                                                                                Colors.transparent,
+                                                                            builder:
+                                                                                (BuildContext context) {
+                                                                              return Container(
+                                                                                padding: EdgeInsets.zero,
+                                                                                child: Stack(
+                                                                                  children: [
+                                                                                    Positioned(
+                                                                                      top: position.dy, // Set the top position based on the tapped widget's position
+                                                                                      right: MediaQuery.of(context).size.width - position.dx - box.size.width + 40,
+                                                                                      child: Container(
+                                                                                        decoration: BoxDecoration(
+                                                                                          borderRadius: BorderRadius.circular(12),
+                                                                                          color: Colors.black,
+                                                                                        ),
+                                                                                        child: Column(
+                                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                          children: [
+                                                                                            TextButton(
+                                                                                              onPressed: () {
+                                                                                                // perform copy operation
+                                                                                                Navigator.pop(context); // Close the dialog
+                                                                                              },
+                                                                                              child: Row(
+                                                                                                children: [
+                                                                                                  SvgPicture.asset("images/copy.svg"),
+                                                                                                  const SizedBox(
+                                                                                                    width: 8,
+                                                                                                  ),
+                                                                                                  const Text(
+                                                                                                    "복사",
+                                                                                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
+                                                                                                  )
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                            SvgPicture.asset("images/pop_up_divider.svg"),
+                                                                                            TextButton(
+                                                                                              onPressed: () {
+                                                                                                // Perform delete operation
+                                                                                                Navigator.pop(context); // Close the dialog
+                                                                                              },
+                                                                                              child: Row(
+                                                                                                children: [
+                                                                                                  SvgPicture.asset("images/delete.svg"),
+                                                                                                  const SizedBox(
+                                                                                                    width: 8,
+                                                                                                  ),
+                                                                                                  const Text(
+                                                                                                    "삭제",
+                                                                                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
+                                                                                                  )
+                                                                                                ],
+                                                                                              ),
+                                                                                            ),
+                                                                                          ],
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              );
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                                    ),
+                                                                  ],
                                                                 ),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 16,
                                                               ),
                                                               Column(
                                                                 children: [
-                                                                  Image.asset(
-                                                                      conversation
-                                                                          .previewImage)
+                                                                  Container(
+                                                                    width: 262,
+                                                                    height: 155,
+                                                                    decoration:
+                                                                        const BoxDecoration(
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .only(
+                                                                        topLeft:
+                                                                            Radius.circular(8),
+                                                                        topRight:
+                                                                            Radius.circular(8),
+                                                                      ),
+                                                                    ),
+                                                                    child: Image.asset(
+                                                                        conversation
+                                                                            .previewImage),
+                                                                  ),
+                                                                  Container(
+                                                                    width: 262,
+                                                                    decoration:
+                                                                        const BoxDecoration(
+                                                                      color: Color(
+                                                                          0xFFFFFFFF),
+                                                                      borderRadius:
+                                                                          BorderRadius
+                                                                              .only(
+                                                                        bottomLeft:
+                                                                            Radius.circular(8),
+                                                                        bottomRight:
+                                                                            Radius.circular(8),
+                                                                      ),
+                                                                    ),
+                                                                    padding: const EdgeInsets.only(
+                                                                        top: 9,
+                                                                        right:
+                                                                            8,
+                                                                        bottom:
+                                                                            8,
+                                                                        left:
+                                                                            8),
+                                                                    child:
+                                                                        Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                          conversation
+                                                                              .previewTitle,
+                                                                          style: const TextStyle(
+                                                                              fontSize: 12,
+                                                                              fontWeight: FontWeight.w500,
+                                                                              color: Colors.black),
+                                                                        ),
+                                                                        const SizedBox(
+                                                                          height:
+                                                                              8,
+                                                                        ),
+                                                                        Row(
+                                                                          children: [
+                                                                            Image.asset(
+                                                                              "images/blog_icon.png",
+                                                                              height: 16,
+                                                                              width: 16,
+                                                                            ),
+                                                                            const SizedBox(
+                                                                              width: 4,
+                                                                            ),
+                                                                            Text(
+                                                                              conversation.previewText,
+                                                                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Colors.black),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  )
                                                                 ],
                                                               )
                                                             ],
@@ -1422,9 +1557,9 @@ class _ChatRoomState extends State<ChatRoom> {
                                                       : Container(
                                                           padding: conversation
                                                                   .isImage
-                                                              ? EdgeInsets.all(
+                                                              ? const EdgeInsets.all(
                                                                   0)
-                                                              : EdgeInsets
+                                                              : const EdgeInsets
                                                                   .symmetric(
                                                                       horizontal:
                                                                           12,
@@ -1441,7 +1576,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                   .isImage
                                                               ? InkWell(
                                                                   overlayColor:
-                                                                      MaterialStatePropertyAll(
+                                                                      const MaterialStatePropertyAll(
                                                                           Colors
                                                                               .transparent),
                                                                   child:
@@ -1500,10 +1635,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                         child: Row(
                                                                                           children: [
                                                                                             SvgPicture.asset("images/copy.svg"),
-                                                                                            SizedBox(
+                                                                                            const SizedBox(
                                                                                               width: 8,
                                                                                             ),
-                                                                                            Text(
+                                                                                            const Text(
                                                                                               "복사",
                                                                                               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
                                                                                             )
@@ -1519,10 +1654,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                         child: Row(
                                                                                           children: [
                                                                                             SvgPicture.asset("images/delete.svg"),
-                                                                                            SizedBox(
+                                                                                            const SizedBox(
                                                                                               width: 8,
                                                                                             ),
-                                                                                            Text(
+                                                                                            const Text(
                                                                                               "삭제",
                                                                                               style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
                                                                                             )
@@ -1548,7 +1683,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                         children: [
                                                                           Text(
                                                                             latestReplyToText,
-                                                                            style: TextStyle(
+                                                                            style: const TextStyle(
                                                                                 fontSize: 14,
                                                                                 fontWeight: FontWeight.w500,
                                                                                 color: Color(0xFFA2BC02)),
@@ -1557,7 +1692,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                             width:
                                                                                 messageWidth - 40,
                                                                             child:
-                                                                                Divider(
+                                                                                const Divider(
                                                                               height: 2,
                                                                               thickness: 1,
                                                                               color: Color(0xFFA2BC02),
@@ -1565,7 +1700,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                           ),
                                                                           Text(
                                                                             conversation.message,
-                                                                            style: TextStyle(
+                                                                            style: const TextStyle(
                                                                                 fontSize: 14,
                                                                                 fontWeight: FontWeight.w500,
                                                                                 color: Colors.black),
@@ -1611,10 +1746,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                             child: Row(
                                                                                               children: [
                                                                                                 SvgPicture.asset("images/copy.svg"),
-                                                                                                SizedBox(
+                                                                                                const SizedBox(
                                                                                                   width: 8,
                                                                                                 ),
-                                                                                                Text(
+                                                                                                const Text(
                                                                                                   "복사",
                                                                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
                                                                                                 )
@@ -1630,10 +1765,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                             child: Row(
                                                                                               children: [
                                                                                                 SvgPicture.asset("images/delete.svg"),
-                                                                                                SizedBox(
+                                                                                                const SizedBox(
                                                                                                   width: 8,
                                                                                                 ),
-                                                                                                Text(
+                                                                                                const Text(
                                                                                                   "삭제",
                                                                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
                                                                                                 )
@@ -1657,7 +1792,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                         conversation
                                                                             .message,
                                                                         style:
-                                                                            TextStyle(
+                                                                            const TextStyle(
                                                                           fontSize:
                                                                               14,
                                                                           fontWeight:
@@ -1705,10 +1840,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                             child: Row(
                                                                                               children: [
                                                                                                 SvgPicture.asset("images/copy.svg"),
-                                                                                                SizedBox(
+                                                                                                const SizedBox(
                                                                                                   width: 8,
                                                                                                 ),
-                                                                                                Text(
+                                                                                                const Text(
                                                                                                   "복사",
                                                                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
                                                                                                 )
@@ -1724,10 +1859,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                             child: Row(
                                                                                               children: [
                                                                                                 SvgPicture.asset("images/delete.svg"),
-                                                                                                SizedBox(
+                                                                                                const SizedBox(
                                                                                                   width: 8,
                                                                                                 ),
-                                                                                                Text(
+                                                                                                const Text(
                                                                                                   "삭제",
                                                                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
                                                                                                 )
@@ -1751,7 +1886,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                           },
                                         ),
                                       ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     if (conversation.role == "receiver")
@@ -1807,7 +1942,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                             ))
                                                       ]),
                                                     ),
-                                                    SizedBox(
+                                                    const SizedBox(
                                                       width: 5,
                                                     ),
                                                     Column(
@@ -1817,7 +1952,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                       children: [
                                                         Text(
                                                           users[0].name,
-                                                          style: TextStyle(
+                                                          style: const TextStyle(
                                                               fontSize: 10,
                                                               fontWeight:
                                                                   FontWeight
@@ -1825,7 +1960,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                               color:
                                                                   Colors.white),
                                                         ),
-                                                        SizedBox(
+                                                        const SizedBox(
                                                           height: 6,
                                                         ),
                                                         ConstrainedBox(
@@ -1838,9 +1973,9 @@ class _ChatRoomState extends State<ChatRoom> {
                                                             child: Container(
                                                               padding: conversation
                                                                       .isImage
-                                                                  ? EdgeInsets
+                                                                  ? const EdgeInsets
                                                                       .all(0)
-                                                                  : EdgeInsets.symmetric(
+                                                                  : const EdgeInsets.symmetric(
                                                                       horizontal:
                                                                           12,
                                                                       vertical:
@@ -1850,13 +1985,13 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                       BorderRadius
                                                                           .circular(
                                                                               12),
-                                                                  color: Color(
+                                                                  color: const Color(
                                                                       0xFF545456)),
                                                               child: conversation
                                                                       .isImage
                                                                   ? InkWell(
                                                                       overlayColor:
-                                                                          MaterialStatePropertyAll(
+                                                                          const MaterialStatePropertyAll(
                                                                               Colors.transparent),
                                                                       child:
                                                                           ClipRRect(
@@ -1909,10 +2044,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                             child: Row(
                                                                                               children: [
                                                                                                 SvgPicture.asset("images/copy.svg"),
-                                                                                                SizedBox(
+                                                                                                const SizedBox(
                                                                                                   width: 8,
                                                                                                 ),
-                                                                                                Text(
+                                                                                                const Text(
                                                                                                   "복사",
                                                                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
                                                                                                 )
@@ -1928,10 +2063,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                             child: Row(
                                                                                               children: [
                                                                                                 SvgPicture.asset("images/delete.svg"),
-                                                                                                SizedBox(
+                                                                                                const SizedBox(
                                                                                                   width: 8,
                                                                                                 ),
-                                                                                                Text(
+                                                                                                const Text(
                                                                                                   "삭제",
                                                                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
                                                                                                 )
@@ -1955,7 +2090,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                         conversation
                                                                             .message,
                                                                         style:
-                                                                            TextStyle(
+                                                                            const TextStyle(
                                                                           fontSize:
                                                                               14,
                                                                           fontWeight:
@@ -2007,10 +2142,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                             child: Row(
                                                                                               children: [
                                                                                                 SvgPicture.asset("images/reply.svg"),
-                                                                                                SizedBox(
+                                                                                                const SizedBox(
                                                                                                   width: 8,
                                                                                                 ),
-                                                                                                Text(
+                                                                                                const Text(
                                                                                                   "답글달기",
                                                                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
                                                                                                 ),
@@ -2026,10 +2161,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                             child: Row(
                                                                                               children: [
                                                                                                 SvgPicture.asset("images/copy.svg"),
-                                                                                                SizedBox(
+                                                                                                const SizedBox(
                                                                                                   width: 8,
                                                                                                 ),
-                                                                                                Text(
+                                                                                                const Text(
                                                                                                   "복사",
                                                                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white),
                                                                                                 )
@@ -2045,10 +2180,10 @@ class _ChatRoomState extends State<ChatRoom> {
                                                                                             child: Row(
                                                                                               children: [
                                                                                                 SvgPicture.asset("images/delete.svg"),
-                                                                                                SizedBox(
+                                                                                                const SizedBox(
                                                                                                   width: 8,
                                                                                                 ),
-                                                                                                Text(
+                                                                                                const Text(
                                                                                                   "삭제",
                                                                                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Color(0xFFFF0089)),
                                                                                                 )
@@ -2071,12 +2206,12 @@ class _ChatRoomState extends State<ChatRoom> {
                                                     ),
                                                   ],
                                                 ),
-                                                SizedBox(
+                                                const SizedBox(
                                                   width: 8,
                                                 ),
                                                 Text(
                                                   conversation.hour,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize: 10,
                                                       fontWeight:
                                                           FontWeight.w300,
@@ -2087,7 +2222,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                           },
                                         ),
                                       ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                   ],
@@ -2102,8 +2237,8 @@ class _ChatRoomState extends State<ChatRoom> {
             ),
           ),
           Container(
-            color: Color(0xFF242426),
-            margin: EdgeInsets.only(top: 20),
+            color: const Color(0xFF242426),
+            margin: const EdgeInsets.only(top: 0),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -2115,14 +2250,14 @@ class _ChatRoomState extends State<ChatRoom> {
                             Row(
                               children: [
                                 SvgPicture.asset("images/reply.svg"),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       "말랑한 우동/호스트 에게 답장",
                                       style: TextStyle(
                                           fontSize: 12,
@@ -2133,7 +2268,7 @@ class _ChatRoomState extends State<ChatRoom> {
                                       replyToText.length > 25
                                           ? replyToText.substring(0, 27) + "..."
                                           : replyToText,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           fontWeight: FontWeight.w700,
                                           color: Colors.white),
@@ -2157,14 +2292,14 @@ class _ChatRoomState extends State<ChatRoom> {
                             ),
                           ],
                         )
-                      : SizedBox(
+                      : const SizedBox(
                           height: 0,
                         ),
                   replyToText != ""
-                      ? SizedBox(
+                      ? const SizedBox(
                           height: 14,
                         )
-                      : SizedBox(
+                      : const SizedBox(
                           height: 0,
                         ),
                   Row(
@@ -2183,7 +2318,7 @@ class _ChatRoomState extends State<ChatRoom> {
                           "images/from_camera.png",
                           width: 32,
                           height: 32,
-                          color: Color(0xFFAEAEB2),
+                          color: const Color(0xFFAEAEB2),
                         ),
                       ),
                       const SizedBox(
@@ -2202,11 +2337,11 @@ class _ChatRoomState extends State<ChatRoom> {
                                 const TextStyle(color: Color(0xFFAEAEB2)),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(24),
-                              borderSide: BorderSide(color: Color(0xFF545456)),
+                              borderSide: const BorderSide(color: Color(0xFF545456)),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(24),
-                              borderSide: BorderSide(color: Color(0xFF545456)),
+                              borderSide: const BorderSide(color: Color(0xFF545456)),
                             ),
                             suffixIcon: GestureDetector(
                               onTap: () {
@@ -2270,8 +2405,8 @@ class _ChatRoomState extends State<ChatRoom> {
                                   height: 24,
                                   width: 24,
                                   color: _chatController.text == ""
-                                      ? Color(0xFFAEAEB2)
-                                      : Color(0xFFDBFF00)),
+                                      ? const Color(0xFFAEAEB2)
+                                      : const Color(0xFFDBFF00)),
                             ),
                             filled: true,
                             fillColor: const Color(0xFF444446),

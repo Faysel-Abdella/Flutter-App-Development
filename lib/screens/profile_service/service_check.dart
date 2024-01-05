@@ -16,15 +16,15 @@ class _ServiceCheckState extends State<ServiceCheck> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF363638),
-      appBar: CustomAppBar(text: "탈퇴 사유 입력"),
+      backgroundColor: const Color(0xFF363638),
+      appBar: const CustomAppBar(text: "탈퇴 사유 입력"),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "탈퇴 사유",
                 style: TextStyle(
                     fontSize: 16,
@@ -59,7 +59,7 @@ class _ServiceCheckState extends State<ServiceCheck> {
                     title: Text(
                       selectionColor: Colors.white,
                       options[index],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Colors.white,
@@ -68,32 +68,32 @@ class _ServiceCheckState extends State<ServiceCheck> {
                   );
                 },
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
-              Divider(
+              const Divider(
                 thickness: 1,
                 color: Colors.black,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
-              Text(
+              const Text(
                 "의견 제출",
                 style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: Colors.white),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               TextField(
                 minLines: 4,
                 maxLines: null,
                 textInputAction: TextInputAction.newline,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                style: const TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.w700),
                 decoration: InputDecoration(
                   hintText: '텍스트를 입력하세요.',
                   hintStyle: const TextStyle(
@@ -102,31 +102,31 @@ class _ServiceCheckState extends State<ServiceCheck> {
                       fontWeight: FontWeight.w500),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Color(0xFF7C7C80)),
+                    borderSide: const BorderSide(color: Color(0xFF7C7C80)),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: Color(0xFF7C7C80)),
+                    borderSide: const BorderSide(color: Color(0xFF7C7C80)),
                   ),
                   filled: true, // Set filled to true
-                  fillColor: Color(0xFF444446),
+                  fillColor: const Color(0xFF444446),
                   contentPadding: const EdgeInsets.symmetric(
                     vertical: 8,
                     horizontal: 16,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
-              Text(
+              const Text(
                 "서비스 이용과정에서 불편했던 부분을 기재해주시면 서비스 개선에 참고하도록 하겠습니다.",
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colors.white),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 16,
               ),
               GestureDetector(
@@ -142,9 +142,9 @@ class _ServiceCheckState extends State<ServiceCheck> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
                       color: selectedIndex != -1
-                          ? Color(0xFFDBFF00)
-                          : Color(0xFFAEAEB2)),
-                  child: Center(
+                          ? const Color(0xFFDBFF00)
+                          : const Color(0xFFAEAEB2)),
+                  child: const Center(
                     child: Text(
                       "탈퇴",
                       style: TextStyle(

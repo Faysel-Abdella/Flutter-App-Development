@@ -11,12 +11,12 @@ class FirstOnBoardPage extends StatelessWidget {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => AllowAccessPage(),
+            builder: (context) => const AllowAccessPage(),
           ));
     }
 
     return Scaffold(
-      backgroundColor: Color(0xFF242426),
+      backgroundColor: const Color(0xFF242426),
       body: SafeArea(
         child: Container(
           child: LayoutBuilder(
@@ -61,10 +61,10 @@ class FirstOnBoardPage extends StatelessWidget {
                           CustomFreeButton(
                             onTab: onTabFun,
                             height: 36.0,
-                            color: Color(0xFFDBFF00),
+                            color: const Color(0xFFDBFF00),
                             content: "다음",
-                            textColor: Color(0xFF242426),
-                            margin: EdgeInsets.symmetric(vertical: 25),
+                            textColor: const Color(0xFF242426),
+                            margin: const EdgeInsets.symmetric(vertical: 25),
                           ),
                         ],
                       ),

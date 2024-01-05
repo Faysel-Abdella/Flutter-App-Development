@@ -131,7 +131,8 @@ class _BrandSelectState extends State<BrandSelect> {
                                           border: _isSelected[i]
                                               ? Border.all(
                                                   width: 1,
-                                                  color: Color(0xFFDBFF00),
+                                                  color:
+                                                      const Color(0xFFDBFF00),
                                                 )
                                               : null,
                                         ),
@@ -163,7 +164,7 @@ class _BrandSelectState extends State<BrandSelect> {
                                 });
                               },
                               child: Padding(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 child: GestureDetector(
                                   onTap: () {
                                     setState(() {
@@ -201,7 +202,8 @@ class _BrandSelectState extends State<BrandSelect> {
                                           border: _isSelected[i]
                                               ? Border.all(
                                                   width: 0.5,
-                                                  color: Color(0xFFDBFF00),
+                                                  color:
+                                                      const Color(0xFFDBFF00),
                                                 )
                                               : null,
                                         ),
@@ -248,7 +250,7 @@ class _BrandSelectState extends State<BrandSelect> {
                         ? Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => MessagePageEntrance(),
+                              builder: (context) => const MessagePageEntrance(),
                             ))
                         : null;
                     // Handle button press

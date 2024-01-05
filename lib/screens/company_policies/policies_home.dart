@@ -15,8 +15,8 @@ class _PoliciesState extends State<Policies> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF363638),
-      appBar: CustomAppBar(text: "약관 및 정책"),
+      backgroundColor: const Color(0xFF363638),
+      appBar: const CustomAppBar(text: "약관 및 정책"),
       body: Column(children: [
         CustomSettingText(
             text: "이용약관",
@@ -24,7 +24,7 @@ class _PoliciesState extends State<Policies> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Terms(),
+                    builder: (context) => const Terms(),
                   ));
             }),
         CustomSettingText(
@@ -33,7 +33,7 @@ class _PoliciesState extends State<Policies> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Policy(),
+                    builder: (context) => const Policy(),
                   ));
             })
       ]),

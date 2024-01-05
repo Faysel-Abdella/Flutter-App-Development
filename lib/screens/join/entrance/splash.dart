@@ -14,10 +14,10 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(context, MaterialPageRoute(
         builder: (context) {
-          return FirstOnBoardPage();
+          return const FirstOnBoardPage();
         },
       ));
     });
@@ -26,7 +26,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 1, 7, 1),
+      backgroundColor: const Color.fromARGB(255, 1, 7, 1),
       body: Stack(
         alignment: Alignment.center,
         children: [

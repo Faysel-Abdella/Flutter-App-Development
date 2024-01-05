@@ -6,7 +6,7 @@ class Policy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: Color(0xFF363638),
       appBar: CustomAppBar(text: "개인정보처리방침"),
     );
